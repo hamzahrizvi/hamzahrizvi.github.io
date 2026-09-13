@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hamzah Rizvi &mdash; Applied AI, Deployment &amp; Integration</title>
+<meta name="description" content="Applied AI, deployment and integration engineer in Manchester, UK. Three years taking AI and biometric systems into live production across 10+ countries. Every figure on the page names its source.">
+<meta name="author" content="Syed Muhammad Hamzah Rizvi">
+<link rel="canonical" href="https://hamzahrizvi.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%2310675A'/%3E%3Cpath d='M8 17.5l5 5 11-12' stroke='white' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="Hamzah Rizvi">
+<meta property="og:title" content="Hamzah Rizvi &mdash; Applied AI, Deployment &amp; Integration">
+<meta property="og:description" content="Applied AI, deployment and integration engineer in Manchester, UK. Three years taking AI and biometric systems into live production across 10+ countries. Every figure on the page names its source.">
+<meta property="og:url" content="https://hamzahrizvi.github.io/">
+<meta property="og:image" content="https://hamzahrizvi.github.io/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="profile:first_name" content="Hamzah">
+<meta property="profile:last_name" content="Rizvi">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hamzah Rizvi &mdash; Applied AI, Deployment &amp; Integration">
+<meta name="twitter:description" content="Applied AI, deployment and integration engineer in Manchester, UK. Three years taking AI and biometric systems into live production across 10+ countries. Every figure on the page names its source.">
+<meta name="twitter:image" content="https://hamzahrizvi.github.io/img/og-card.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap">
+</head>
+<body>
+<style>
+:root{
+  --ground:#F1F4F3;
+  --surface:#FFFFFF;
+  --sunk:#E6EBE9;
+  --ink:#0F1619;
+  --ink-2:#38474C;
+  --muted:#657A80;
+  --line:#D3DCDA;
+  --line-2:#BFCBC8;
+  --pass:#10675A;
+  --pass-soft:#DCEDE8;
+  --caveat:#8A6516;
+  --caveat-soft:#F4EBD7;
+  /* chart marks - validated pair, all six checks pass on this surface */
+  --mark-up:#0C8A70;
+  --mark-down:#A0710E;
+  --mark-flat:#8A9A9E;
+  --shot:#FFFFFF;
+  --display:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --body:'IBM Plex Serif',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+  --wrap:1080px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C1113;
+    --surface:#131B1E;
+    --sunk:#0A0F11;
+    --ink:#E8EEEC;
+    --ink-2:#B4C3C2;
+    --muted:#7F9296;
+    --line:#222E32;
+    --line-2:#314046;
+    --pass:#43C4AB;
+    --pass-soft:#0F2A28;
+    --caveat:#D9A94B;
+    --caveat-soft:#2A2213;
+    --mark-up:#27A188;
+    --mark-down:#B68A2B;
+    --mark-flat:#66787D;
+    --shot:#F4F6F5;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C1113;
+  --surface:#131B1E;
+  --sunk:#0A0F11;
+  --ink:#E8EEEC;
+  --ink-2:#B4C3C2;
+  --muted:#7F9296;
+  --line:#222E32;
+  --line-2:#314046;
+  --pass:#43C4AB;
+  --pass-soft:#0F2A28;
+  --caveat:#D9A94B;
+  --caveat-soft:#2A2213;
+  --mark-up:#27A188;
+  --mark-down:#B68A2B;
+  --mark-flat:#66787D;
+  --shot:#F4F6F5;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:var(--body);font-size:16.5px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--pass);outline-offset:3px;border-radius:2px}
+
+/* ---------- masthead ---------- */
+.top{border-bottom:1px solid var(--line);background:var(--surface)}
+.top .wrap{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
+.wordmark{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.01em}
+.topnav{display:flex;gap:20px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.topnav a{text-decoration:none}
+.topnav a:hover{color:var(--pass)}
+
+/* ---------- hero ---------- */
+.hero{padding:64px 0 20px}
+.eyebrow{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--pass);display:flex;align-items:center;gap:9px;margin-bottom:22px;
+}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--pass);flex:none}
+h1{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(2.6rem,6.4vw,4.3rem);line-height:1.02;letter-spacing:-.028em;
+  margin:0 0 22px;text-wrap:balance;max-width:17ch;
+}
+.standfirst{font-size:1.21rem;line-height:1.58;max-width:60ch;color:var(--ink-2);margin:0 0 14px}
+.standfirst em{color:var(--ink);font-style:italic}
+.thesis{
+  font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--muted);
+  max-width:62ch;margin:0;padding-left:14px;border-left:2px solid var(--line-2);
+}
+
+/* ---------- metric strip ---------- */
+.metrics{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));
+  gap:0;margin:44px 0 0;border:1px solid var(--line);background:var(--surface);
+}
+.metric{padding:24px 26px 22px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:7px}
+.metric:last-child{border-right:none}
+.metric .fig{
+  font-family:var(--display);font-weight:700;font-size:2.45rem;line-height:1;
+  letter-spacing:-.03em;font-variant-numeric:tabular-nums;
+}
+.metric .what{font-size:.95rem;color:var(--ink-2);line-height:1.42}
+.src{
+  font-family:var(--mono);font-size:10.5px;line-height:1.55;color:var(--muted);
+  letter-spacing:.02em;margin-top:auto;padding-top:10px;
+  display:flex;gap:7px;align-items:flex-start;
+}
+.src .tag{
+  flex:none;text-transform:uppercase;letter-spacing:.08em;font-weight:500;
+  padding:1px 5px;border-radius:2px;
+}
+.tag.v{background:var(--pass-soft);color:var(--pass)}
+.tag.c{background:var(--caveat-soft);color:var(--caveat)}
+.src a{color:var(--pass)}
+
+@media(max-width:760px){
+  .metric{border-right:none;border-bottom:1px solid var(--line)}
+  .metric:last-child{border-bottom:none}
+}
+
+/* ---------- sections ---------- */
+section{padding:62px 0}
+.rule{border:0;border-top:1px solid var(--line);margin:0}
+.shead{display:flex;align-items:baseline;gap:14px;margin-bottom:34px;flex-wrap:wrap}
+.shead h2{
+  font-family:var(--display);font-weight:700;font-size:1.62rem;letter-spacing:-.018em;margin:0;
+}
+.shead .note{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.03em}
+
+/* ---------- work entries ---------- */
+.entry{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:46px;align-items:start}
+.entry + .entry{margin-top:52px;padding-top:52px;border-top:1px solid var(--line)}
+.entry h3{
+  font-family:var(--display);font-weight:600;font-size:1.3rem;letter-spacing:-.012em;
+  margin:0 0 4px;
+}
+.stack{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin:0 0 16px;letter-spacing:.02em}
+.entry p{margin:0 0 13px;max-width:64ch}
+.entry p:last-child{margin-bottom:0}
+.pull{
+  border-left:2px solid var(--pass);padding:3px 0 3px 16px;margin:18px 0;
+  font-style:italic;color:var(--ink-2);max-width:60ch;
+}
+
+/* result table in the aside */
+.aside{
+  background:var(--surface);border:1px solid var(--line);padding:18px 20px;
+  position:sticky;top:20px;
+}
+.aside h4{
+  font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--muted);margin:0 0 14px;font-weight:500;
+}
+.rows{display:flex;flex-direction:column;gap:0}
+.row{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding:8px 0;border-bottom:1px dotted var(--line-2);font-size:.88rem;
+}
+.row:last-child{border-bottom:none}
+.row .k{color:var(--ink-2);line-height:1.32}
+.row .v{font-family:var(--mono);font-weight:500;font-variant-numeric:tabular-nums;flex:none;font-size:.86rem}
+.v.good{color:var(--pass)}
+.v.bad{color:var(--caveat)}
+.aside .foot{
+  font-family:var(--mono);font-size:10px;line-height:1.6;color:var(--muted);
+  margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);
+}
+.aside .foot a{color:var(--pass)}
+
+@media(max-width:900px){
+  .entry{grid-template-columns:1fr;gap:26px}
+  .aside{position:static}
+}
+
+/* ---------- deployment grid ---------- */
+.deploys{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.dep{background:var(--surface);padding:22px 24px;display:flex;flex-direction:column;gap:9px}
+.dep .sector{
+  font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--pass);
+}
+.dep h3{font-family:var(--display);font-weight:600;font-size:1.03rem;margin:0;letter-spacing:-.008em}
+.dep p{margin:0;font-size:.93rem;color:var(--ink-2);line-height:1.5}
+.dep .out{
+  font-family:var(--mono);font-size:11px;color:var(--ink);margin-top:auto;padding-top:11px;
+  border-top:1px dotted var(--line-2);line-height:1.5;
+}
+
+/* ---------- timeline ---------- */
+.tl{display:flex;flex-direction:column}
+.tl-row{
+  display:grid;grid-template-columns:168px minmax(0,1fr);gap:28px;
+  padding:17px 0;border-top:1px solid var(--line);
+}
+.tl-row:last-child{border-bottom:1px solid var(--line)}
+.tl-when{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.02em;padding-top:3px}
+.tl-what strong{font-family:var(--display);font-weight:600;font-size:1.02rem;letter-spacing:-.008em}
+.tl-what .org{color:var(--ink-2)}
+.tl-what p{margin:5px 0 0;font-size:.93rem;color:var(--ink-2);max-width:64ch}
+@media(max-width:680px){
+  .tl-row{grid-template-columns:1fr;gap:5px}
+}
+
+
+/* ---------- figures ---------- */
+figure{margin:0}
+.figpair{
+  display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;
+  margin:26px 0 4px;
+}
+.shot{
+  background:var(--shot);border:1px solid var(--line-2);padding:0;
+  display:block;overflow:hidden;
+}
+.shot img{display:block;width:100%;height:auto}
+figcaption{
+  font-family:var(--mono);font-size:10.5px;line-height:1.6;color:var(--muted);
+  margin-top:9px;letter-spacing:.02em;
+}
+figcaption b{color:var(--ink-2);font-weight:500}
+@media(max-width:620px){ .figpair{grid-template-columns:1fr} }
+
+/* ---------- gif demo ---------- */
+.demo{margin:30px 0 4px}
+.demo-frame{
+  position:relative;background:var(--shot);border:1px solid var(--line-2);
+  display:block;width:100%;padding:0;cursor:pointer;overflow:hidden;
+}
+.demo-frame img{display:block;width:100%;height:auto}
+.demo-frame .play{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(9,18,20,.34);transition:background .15s;
+}
+.demo-frame:hover .play{background:rgba(9,18,20,.2)}
+.demo-frame .play span{
+  font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  color:#fff;border:1px solid rgba(255,255,255,.85);padding:11px 20px;
+  background:rgba(9,18,20,.5);
+}
+.demo-frame.playing .play{display:none}
+
+/* ---------- experiment chart ---------- */
+.chart{
+  margin:26px 0 6px;border:1px solid var(--line);background:var(--surface);
+  padding:20px 22px 16px;
+}
+.chart-head{
+  font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--muted);margin:0 0 4px;
+}
+.chart-sub{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin:0 0 18px}
+.bars{display:flex;flex-direction:column;gap:11px}
+.bar-row{display:grid;grid-template-columns:minmax(0,1fr);gap:5px}
+.bar-top{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  font-size:.87rem;color:var(--ink-2);line-height:1.3;
+}
+.bar-top .n{font-family:var(--mono);color:var(--muted);font-size:.78rem;margin-right:7px}
+.bar-top .val{
+  font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;
+  flex:none;font-size:.85rem;color:var(--ink);
+}
+.bar-track{background:var(--sunk);height:15px;width:100%;position:relative}
+.bar-fill{
+  height:100%;border-radius:0 3px 3px 0;transition:filter .15s;
+  display:block;
+}
+.bar-row:hover .bar-fill{filter:brightness(1.08)}
+.up .bar-fill{background:var(--mark-up)}
+.down .bar-fill{background:var(--mark-down)}
+.flat .bar-fill{background:var(--mark-flat)}
+.flag{
+  font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.09em;
+  padding:1px 5px;border-radius:2px;flex:none;margin-left:8px;
+}
+.flag.d{background:var(--caveat-soft);color:var(--caveat)}
+.flag.u{background:var(--pass-soft);color:var(--pass)}
+.chart-axis{
+  display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;
+  color:var(--muted);margin-top:12px;padding-top:8px;border-top:1px solid var(--line);
+  font-variant-numeric:tabular-nums;
+}
+.chart-foot{
+  font-family:var(--mono);font-size:10px;line-height:1.65;color:var(--muted);
+  margin:12px 0 0;
+}
+.chart-legend{
+  display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;
+  color:var(--muted);margin:0 0 16px;letter-spacing:.02em;
+}
+.chart-legend i{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:baseline}
+.chart-legend .lu{background:var(--mark-up)}
+.chart-legend .ld{background:var(--mark-down)}
+.chart-legend .lf{background:var(--mark-flat)}
+
+/* ---------- also-public strip ---------- */
+.also{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;margin-top:14px}
+.also-card{border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column}
+.also-card .cap{padding:16px 18px;display:flex;flex-direction:column;gap:7px}
+.also-card h3{font-family:var(--display);font-weight:600;font-size:1rem;margin:0}
+.also-card p{margin:0;font-size:.9rem;color:var(--ink-2);line-height:1.5}
+.also-card .lk{font-family:var(--mono);font-size:10.5px;color:var(--pass);margin-top:2px}
+.also-card .thumb{background:var(--shot);border-bottom:1px solid var(--line);display:block}
+.also-card .thumb img{display:block;width:100%;height:auto}
+
+/* ---------- contact ---------- */
+.contact{background:var(--surface);border-top:1px solid var(--line)}
+.contact .wrap{padding-top:52px;padding-bottom:52px}
+.clinks{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
+.clink{
+  display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.02em;
+  border:1px solid var(--line-2);padding:9px 15px;color:var(--ink);
+  transition:border-color .15s,color .15s;
+}
+.clink:hover{border-color:var(--pass);color:var(--pass)}
+.clink .ck{color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:.09em}
+.clink:hover .ck{color:var(--pass)}
+.status{
+  font-family:var(--mono);font-size:11.5px;line-height:1.7;color:var(--muted);
+  margin:26px 0 0;padding-top:18px;border-top:1px solid var(--line);max-width:64ch;
+}
+.status strong{color:var(--ink-2);font-weight:500}
+
+footer{padding:22px 0;font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.03em}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <span class="wordmark">Syed Muhammad Hamzah Rizvi</span>
+    <nav class="topnav">
+      <a href="#evidence">Evidence</a>
+      <a href="#deployments">Deployments</a>
+      <a href="#track">Track</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <div class="eyebrow">Applied AI &middot; Deployment &amp; Integration &middot; Manchester, UK</div>
+  <h1>I ship AI that has to be right in production.</h1>
+  <p class="standfirst">
+    Three years taking AI and biometric systems from a customer's ambiguous requirements
+    into live production across 10+ countries &mdash; and building the tooling that proves
+    they still work once they're there.
+  </p>
+  <p class="thesis">
+    Every figure on this page names its source. Where a number is confounded or
+    can't be isolated, it says so. That habit is the job: my RAG assistant refuses
+    answers it can't ground in a document, and the biometric systems I deploy decide
+    whether a face clears an age threshold. Unverifiable claims are the failure mode
+    in both.
+  </p>
+
+  <div class="metrics">
+    <div class="metric">
+      <span class="fig">300+</span>
+      <span class="what">customer accounts served weekly by an assistant I built and shipped</span>
+      <span class="src"><span class="tag v">Verified</span> Live traffic, GroundedOps admin console</span>
+    </div>
+    <div class="metric">
+      <span class="fig">40% / 55%</span>
+      <span class="what">fall in first-line ticket volume and resolution time after release</span>
+      <span class="src"><span class="tag c">Confounded</span> Jira, since release &mdash; ran alongside other initiatives, so not isolated to this tool</span>
+    </div>
+    <div class="metric">
+      <span class="fig">92.6%</span>
+      <span class="what">near-group age accuracy, hierarchical EfficientNetB0 on 274k faces</span>
+      <span class="src"><span class="tag v">Verified</span> <a href="https://github.com/hamzahrizvi/age-estimation-CNN" target="_blank" rel="noopener">Soft-Ordinal-7Class branch &#8599;</a></span>
+    </div>
+    <div class="metric">
+      <span class="fig">15</span>
+      <span class="what">concurrent enterprise deployments owned end to end, across 10+ countries</span>
+      <span class="src"><span class="tag v">Verified</span> Innovative Technology, Mar 2023 &ndash; present</span>
+    </div>
+  </div>
+</div>
+
+<hr class="rule">
+
+<section id="evidence">
+  <div class="wrap">
+    <div class="shead">
+      <h2>Evidence</h2>
+      <span class="note">Two systems, both public &mdash; read the code, check the numbers</span>
+    </div>
+
+    <article class="entry">
+      <div>
+        <h3>GroundedOps &mdash; retrieval assistant that refuses to guess</h3>
+        <p class="stack">Python &middot; FastAPI &middot; React &middot; ChromaDB &middot; Ollama &middot; Docker &middot; DeepSeek / OpenAI / Claude</p>
+        <p>
+          A support assistant over hardware manuals and internal specs, now answering for
+          300+ customer accounts a week through an embeddable widget. Hybrid BM25 and dense
+          retrieval merged with reciprocal rank fusion, a sigmoid-calibrated cross-encoder
+          reranker, then an NLI entailment check on every sentence before it reaches the
+          screen. When it can't ground an answer, it says so rather than inventing one.
+        </p>
+        <p>
+          The part worth reading is a bug I nearly shipped. The hallucination gate was
+          passing invented claims at 0.99 confidence and refusing verbatim-correct ones at
+          0.02 &mdash; the verifier was reading the classifier's <em>neutral</em> class
+          instead of <em>entailment</em>. The gate was inverted and every surface metric
+          looked healthy.
+        </p>
+        <p class="pull">
+          Correcting the class index and premise granularity took a true/false claim battery
+          from three wrong verdicts to 8 out of 8. Nothing upstream would have caught it,
+          because a confidently wrong answer and a confidently right one look identical
+          until you check what the number actually refers to.
+        </p>
+        <p>
+          I also A/B-tested two competing fixes for a retrieval fault on parallel isolated
+          instances, and rejected the intuitive one on measured evidence in favour of a
+          narrower fix that regressed nothing.
+        </p>
+
+        <div class="figpair">
+          <figure>
+            <span class="shot"><img src="img/answer-sources.png" alt="The assistant answering a hardware fault question, with a SOURCES panel expanded beneath the answer citing the NV9 Spectral Range User Manual v1, pages 19, 60, 61 and 62." loading="lazy"></span>
+            <figcaption><b>Grounded.</b> Every answer carries the document and the page numbers it came from, so the reader can check it rather than trust it.</figcaption>
+          </figure>
+          <figure>
+            <span class="shot"><img src="img/answer-refusal.png" alt="The assistant declining to answer, saying the information is not in its knowledge base and offering to hand the user to the support team." loading="lazy"></span>
+            <figcaption><b>Refused.</b> When retrieval and the entailment check can't support an answer, it hands the user to a human instead of generating a plausible one.</figcaption>
+          </figure>
+        </div>
+
+        <div class="demo">
+          <button class="demo-frame" id="demoBtn" type="button" aria-label="Play the embedded widget demo">
+            <img id="demoImg" src="img/widget-poster.png" alt="The GroundedOps support widget embedded on a product page, collapsed to its launcher button." loading="lazy">
+            <span class="play"><span>Play demo</span></span>
+          </button>
+          <figcaption><b>The embeddable widget, running.</b> Single-file, dependency-free JavaScript that drops into a third-party site and is CORS-scoped to allowed origins.</figcaption>
+        </div>
+      </div>
+      <aside class="aside">
+        <h4>Shipped with</h4>
+        <div class="rows">
+          <div class="row"><span class="k">Regression tests, each tied to a named bug</span><span class="v good">140+</span></div>
+          <div class="row"><span class="k">Eval harness cases gating every change</span><span class="v good">34</span></div>
+          <div class="row"><span class="k">Weekly customer accounts served</span><span class="v good">300+</span></div>
+          <div class="row"><span class="k">Reference corpus</span><span class="v">~200 pp</span></div>
+          <div class="row"><span class="k">Claim battery, before &rarr; after fix</span><span class="v">3 wrong &rarr; 8/8</span></div>
+        </div>
+        <p class="foot">
+          Source &middot; <a href="https://github.com/hamzahrizvi/groundedops" target="_blank" rel="noopener">github.com/hamzahrizvi/groundedops &#8599;</a>
+        </p>
+      </aside>
+    </article>
+
+    <article class="entry">
+      <div>
+        <h3>Facial age estimation &mdash; six experiments, two of them failures</h3>
+        <p class="stack">TensorFlow / Keras &middot; EfficientNetB0 &middot; VGG16 &middot; 274k images &middot; WIKI / IMDB / UTKFace / FG-NET</p>
+        <p>
+          A hierarchical multi-task model predicting gender, coarse age band, fine age band
+          and continuous age from a face. Trained on WIKI and IMDB, fine-tuned on UTKFace,
+          stress-tested cross-dataset on FG-NET. Every experiment lives on its own branch
+          with its own results table.
+        </p>
+        <p>
+          The dataset is brutally imbalanced &mdash; 101,294 faces in the 34&ndash;48 band
+          against 153 in the 3&ndash;5 band. I tried the two obvious fixes and both made
+          things worse. Downsampling the majority classes cost more in representation
+          quality than it bought in balance. Weighting the minority classes was worse still:
+          it amplified sparse, noisy samples and damaged the shared features the other heads
+          depended on.
+        </p>
+        <p class="pull">
+          Both attempts were treating a symptom. The problem wasn't imbalance, it was that
+          I'd encoded an ordinal variable as categorical &mdash; adjacent age bands are
+          related, and the loss function didn't know that. Soft ordinal labels took fine-age
+          accuracy from 48.65% to 57.86%.
+        </p>
+
+        <figure class="chart">
+          <p class="chart-head">Fine-age exact accuracy, by experiment</p>
+          <p class="chart-sub">Six branches, in the order they were run &middot; hover any bar for what it established</p>
+          <div class="chart-legend">
+            <span><i class="lu"></i>Improved on previous best</span>
+            <span><i class="ld"></i>Regressed</span>
+            <span><i class="lf"></i>Baseline or different objective</span>
+          </div>
+          <div class="bars">
+          <div class="bar-row flat" title="Starting point: age and gender encoded as one 18-class label">
+            <div class="bar-top"><span><span class="n">01</span>VGG16 baseline, 18 combined classes</span><span class="val">39%</span></div>
+            <div class="bar-track"><span class="bar-fill" style="width:65.0%"></span></div>
+          </div>
+          <div class="bar-row up" title="Splitting into shared-backbone task heads, +9.65 points">
+            <div class="bar-top"><span><span class="n">02</span>Hierarchical EfficientNetB0, 3 task heads<span class="flag u">Best so far</span></span><span class="val">48.65%</span></div>
+            <div class="bar-track"><span class="bar-fill" style="width:81.1%"></span></div>
+          </div>
+          <div class="bar-row down" title="Capping majority classes cost more in representation than it bought in balance">
+            <div class="bar-top"><span><span class="n">03</span>Balanced downsampling to 7 classes<span class="flag d">Regressed</span></span><span class="val">39.13%</span></div>
+            <div class="bar-track"><span class="bar-fill" style="width:65.2%"></span></div>
+          </div>
+          <div class="bar-row down" title="Weighting amplified sparse noisy samples and damaged the shared features">
+            <div class="bar-top"><span><span class="n">04</span>Minority class weighting<span class="flag d">Regressed</span></span><span class="val">28.3%</span></div>
+            <div class="bar-track"><span class="bar-fill" style="width:47.2%"></span></div>
+          </div>
+          <div class="bar-row up" title="Treating age as ordinal rather than categorical, +9.21 points on the previous best">
+            <div class="bar-top"><span><span class="n">05</span>Soft ordinal labels, 7 classes<span class="flag u">Best</span></span><span class="val">57.86%</span></div>
+            <div class="bar-track"><span class="bar-fill" style="width:96.4%"></span></div>
+          </div>
+          <div class="bar-row flat" title="Optimised for continuous-age MAE rather than class accuracy">
+            <div class="bar-top"><span><span class="n">06</span>Age regression head, class derived from age</span><span class="val">42.71%</span></div>
+            <div class="bar-track"><span class="bar-fill" style="width:71.2%"></span></div>
+          </div>
+          </div>
+          <div class="chart-axis"><span>0%</span><span>20%</span><span>40%</span><span>60%</span></div>
+          <p class="chart-foot">
+            Run 06 optimises continuous age, not class membership &mdash; its headline result is an
+            <b>8.52-year MAE</b>, which is a different measure and deliberately not plotted on this axis.
+            Run 01's figure is approximate and used a different class scheme, so it indicates a
+            starting point rather than a like-for-like comparison.
+          </p>
+        </figure>
+
+        <p>
+          I've kept the failed branches rather than deleting them. The negative results are
+          what located the actual fault.
+        </p>
+      </div>
+      <aside class="aside">
+        <h4>Experiment log</h4>
+        <div class="rows">
+          <div class="row"><span class="k">1 &middot; VGG16, 18 combined classes</span><span class="v bad">~39%</span></div>
+          <div class="row"><span class="k">2 &middot; EfficientNetB0, 3 task heads</span><span class="v">48.65%</span></div>
+          <div class="row"><span class="k">3 &middot; Balanced downsampling</span><span class="v bad">39.13%</span></div>
+          <div class="row"><span class="k">4 &middot; Class weighting</span><span class="v bad">28.30%</span></div>
+          <div class="row"><span class="k">5 &middot; Soft ordinal labels</span><span class="v good">57.86%</span></div>
+          <div class="row"><span class="k">6 &middot; Age regression head, MAE</span><span class="v good">8.52 yr</span></div>
+        </div>
+        <p class="foot">
+          Fine-age exact accuracy. Best run also reached 88.38% coarse-age, 92.58%
+          near-group (&plusmn;1), 87.46% gender.<br>
+          Source &middot; <a href="https://github.com/hamzahrizvi/age-estimation-CNN" target="_blank" rel="noopener">github.com/hamzahrizvi/age-estimation-CNN &#8599;</a>
+        </p>
+      </aside>
+    </article>
+
+    <div class="also">
+      <div class="also-card">
+        <span class="thumb"><img src="img/dashboard.png" alt="Manufacturing analytics dashboard showing production monitoring charts." loading="lazy"></span>
+        <div class="cap">
+          <h3>Manufacturing analytics dashboard</h3>
+          <p>Production monitoring and process analytics over plant data &mdash; the industrial
+             half of the background, kept current.</p>
+          <a class="lk" href="https://github.com/hamzahrizvi/manufacturing-dashboard" target="_blank" rel="noopener" style="text-decoration:none">github.com/hamzahrizvi/manufacturing-dashboard &#8599;</a>
+        </div>
+      </div>
+      <div class="also-card">
+        <div class="cap">
+          <h3>Android kiosk, face recognition</h3>
+          <p>Capacitor kiosk app for visitor check-in and check-out, enrolling faces against an
+             on-premise Hub API, with Device Owner lockdown and Microsoft Teams notification.</p>
+          <p><a class="lk" href="https://github.com/hamzahrizvi/Android-Kiosk-App-with-Face-Recognition" target="_blank" rel="noopener" style="text-decoration:none">github.com/hamzahrizvi/Android-Kiosk-App-with-Face-Recognition &#8599;</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="deployments">
+  <div class="wrap">
+    <div class="shead">
+      <h2>Deployments</h2>
+      <span class="note">Biometric and identity systems, integrated into infrastructure that already existed</span>
+    </div>
+    <div class="deploys">
+      <div class="dep">
+        <span class="sector">Gaming</span>
+        <h3>Age estimation on gambling machines</h3>
+        <p>Integrated facial age estimation and recognition into existing gambling-machine
+           infrastructure for industry-leading operators, via REST APIs and machine-side
+           authentication workflows.</p>
+        <p class="out">Hundreds of venues, thousands of machines nationwide &middot; real-time checks supporting underage-gambling prevention</p>
+      </div>
+      <div class="dep">
+        <span class="sector">Vending &amp; cloud</span>
+        <h3>Face-based payment and account linking</h3>
+        <p>Connected machine-side software to cloud customer accounts across multiple
+           vending providers, enabling age verification and face-based payment.</p>
+        <p class="out">Up to 25% sales increase among customers otherwise unable to purchase &mdash; forgotten ID or wallet</p>
+      </div>
+      <div class="dep">
+        <span class="sector">Retail</span>
+        <h3>Self-service kiosk automation</h3>
+        <p>Led systems integration for retail kiosks automating the purchase journey for
+           age-restricted products, cutting dependency on manual attendant checks.</p>
+        <p class="out">Up to 50 hours per month saved in customer-to-attendant interaction time</p>
+      </div>
+      <div class="dep">
+        <span class="sector">Warehouse &amp; logistics</span>
+        <h3>Facial recognition access control</h3>
+        <p>Rolled out employee clocking and selective-access control across warehouse sites,
+           integrating with existing operational infrastructure over API-based device
+           communication.</p>
+        <p class="out">Access management and time capture on one biometric identity</p>
+      </div>
+      <div class="dep">
+        <span class="sector">Online age assurance</span>
+        <h3>Age verification for digital platforms</h3>
+        <p>Working with online age-restriction providers to introduce an age-verification
+           model for digital platforms through API integration.</p>
+        <p class="out">Ongoing &middot; metrics not yet established</p>
+      </div>
+      <div class="dep">
+        <span class="sector">Internal</span>
+        <h3>Enablement and documentation</h3>
+        <p>Authored the integration guides, technical specifications and mapping documents
+           the support and engineering teams work from, and trained colleagues on both the
+           products and the AI tooling I built.</p>
+        <p class="out">30+ internal guides &middot; 10+ training sessions to groups of 30+</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="track">
+  <div class="wrap">
+    <div class="shead"><h2>Track</h2></div>
+    <div class="tl">
+      <div class="tl-row">
+        <div class="tl-when">Mar 2023 &ndash; present</div>
+        <div class="tl-what">
+          <strong>Technical Software Consultant</strong> &middot; <span class="org">Innovative Technology, Manchester</span>
+          <p>Own AI biometric and identity-verification deployments end to end for international
+             enterprise customers &mdash; discovery, API integration, escalated debugging, live
+             rollout. Built and shipped the internal AI tooling the support team now runs on.</p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-when">2021 &ndash; 2022</div>
+        <div class="tl-what">
+          <strong>MSc Robotics and Automation</strong> &middot; <span class="org">University of Salford &mdash; Distinction</span>
+          <p>Minor in AI. Dissertation on facial age and gender estimation using CNNs &mdash;
+             the work that became the age-estimation repository above.</p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-when">Mar 2020 &ndash; Sep 2021</div>
+        <div class="tl-what">
+          <strong>Automation Engineer</strong> &middot; <span class="org">Tripack Films, Pakistan</span>
+          <p>Industrial control systems and sensor integration on a large manufacturing site.
+             Led a building-management system for utility monitoring that contributed to roughly
+             25% better energy efficiency, and built an in-house electrical repair capability.</p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-when">Dec 2019 &ndash; Mar 2020</div>
+        <div class="tl-what">
+          <strong>Software Consultant</strong> &middot; <span class="org">Evolligence, Pakistan</span>
+          <p>Backend application logic over structured APIs and data-driven workflows.</p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-when">2015 &ndash; 2019</div>
+        <div class="tl-what">
+          <strong>BEng Electrical Engineering</strong> &middot; <span class="org">NUST, Pakistan</span>
+          <p>Focus on computer vision, machine learning and robotics.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="contact" id="contact">
+  <div class="wrap">
+    <div class="shead"><h2>Get in touch</h2></div>
+    <p class="standfirst" style="font-size:1.05rem;margin-bottom:0">
+      Open to applied AI, forward-deployed and solutions engineering roles &mdash;
+      the kind where someone has to own the thing end to end and be right about it.
+    </p>
+    <div class="clinks">
+      <a class="clink" href="mailto:hamzahrizvi2@gmail.com"><span class="ck">Email</span> hamzahrizvi2@gmail.com</a>
+      <a class="clink" href="https://linkedin.com/in/hamzah-rizvi" target="_blank" rel="noopener"><span class="ck">LinkedIn</span> /in/hamzah-rizvi</a>
+      <a class="clink" href="https://github.com/hamzahrizvi" target="_blank" rel="noopener"><span class="ck">GitHub</span> @hamzahrizvi</a>
+      <a class="clink" href="tel:+447478631940"><span class="ck">Phone</span> 07478 631940</a>
+    </div>
+    <p class="status">
+      <strong>Based in Manchester, UK.</strong> Open to international travel.
+      Requires UK Skilled Worker visa sponsorship &mdash; stated up front so it costs
+      neither of us a screening round.
+    </p>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>Syed Muhammad Hamzah Rizvi &middot; Applied AI, deployment &amp; integration</span>
+    <span>Every figure sourced &middot; last updated September 2026</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var b=document.getElementById('demoBtn'), i=document.getElementById('demoImg');
+  if(!b||!i) return;
+  b.addEventListener('click', function(){
+    if(b.classList.contains('playing')) return;
+    i.src='img/widget-demo.gif';
+    i.alt='Animated demo of the GroundedOps support widget: the launcher opens, a product is chosen, a question is asked, and a grounded answer returns with its sources.';
+    b.classList.add('playing');
+    b.setAttribute('aria-label','Widget demo playing');
+  });
+})();
+</script>
+
+
+</body>
+</html>
