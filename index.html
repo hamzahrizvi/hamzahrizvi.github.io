@@ -28,6 +28,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap">
+<script>
+/* Motion is opt-in: only add the start-hidden states when the visitor has not asked for reduced motion. */
+if(!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)&&'IntersectionObserver' in window){document.documentElement.classList.add('js')}
+</script>
 </head>
 <body>
 <style>
@@ -97,7 +101,7 @@
 body{
   margin:0;background:var(--ground);color:var(--ink);
   font-family:var(--body);font-size:16.5px;line-height:1.62;
-  -webkit-font-smoothing:antialiased;
+  -webkit-font-smoothing:antialiased;overflow-x:clip;
 }
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px}
 a{color:inherit}
@@ -107,12 +111,12 @@ a{color:inherit}
 .top{border-bottom:1px solid var(--line);background:var(--surface)}
 .top .wrap{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
 .wordmark{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.01em}
-.topnav{display:flex;gap:20px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.topnav{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .topnav a{text-decoration:none}
 .topnav a:hover{color:var(--pass)}
 
 /* ---------- hero ---------- */
-.hero{padding:64px 0 20px}
+.hero{padding:64px 28px 20px}
 .eyebrow{
   font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--pass);display:flex;align-items:center;gap:9px;margin-bottom:22px;
@@ -366,6 +370,111 @@ figcaption b{color:var(--ink-2);font-weight:500}
 footer{padding:22px 0;font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.03em}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
+/* ---------- highlights ---------- */
+.hl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+@media(max-width:900px){.hl{grid-template-columns:1fr}}
+.hl-card{
+  background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;
+  text-decoration:none;color:inherit;transition:border-color .2s,transform .25s,box-shadow .25s;
+}
+.hl-card:hover{border-color:var(--pass);transform:translateY(-3px);box-shadow:0 16px 34px rgba(15,22,25,.09)}
+.hl-vis{height:262px;background:var(--sunk);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.hl-cap{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.hl-cap .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--pass)}
+.hl-cap h3{font-family:var(--display);font-weight:600;font-size:1.1rem;margin:0;letter-spacing:-.01em}
+.hl-cap p{margin:0;font-size:.92rem;color:var(--ink-2);line-height:1.5}
+.hl-cap .go{font-family:var(--mono);font-size:11px;color:var(--pass);margin-top:auto;padding-top:6px}
+
+/* A: mini assistant (rebuilt in HTML from the live widget) */
+.mw{position:absolute;inset:16px 22px;background:#fff;border-radius:12px;overflow:hidden;
+  box-shadow:0 10px 26px rgba(15,22,25,.12);font-family:var(--display);color:#1d252c}
+.mw-h{height:32px;background:#0e7350;color:#fff;display:flex;align-items:center;gap:8px;padding:0 12px;font-weight:700;font-size:12px}
+.mw-h i{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.25);display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:9.5px}
+.mw-s{height:22px;background:#eceff1;display:flex;align-items:center;padding:0 12px;font-size:10px;color:#4f5b65;font-weight:500}
+.mw-s b{color:#1d252c;margin-left:3px}
+.mw-b{position:absolute;left:0;right:0;top:54px;bottom:0;padding:10px 12px}
+.mm{position:absolute;max-width:82%;font-size:10.8px;line-height:1.36;font-weight:500;padding:7px 10px;border-radius:11px}
+.mm.u{right:12px;background:#2e3a44;color:#fff}
+.mm.a{left:12px;background:#f2f4f6}
+.mm .sc{display:block;margin-top:6px;padding-top:5px;border-top:1px solid #dde2e6;font-size:10px;font-weight:700}
+.mm .sc span{color:#56626c;font-weight:600}
+.u1{top:8px}.a1{top:54px}.u2{top:10px}.a2{top:46px}
+.u2,.a2{opacity:0}
+.js .hl-card.on .u1{animation:hlu1 11s infinite}
+.js .hl-card.on .a1{animation:hla1 11s infinite}
+.js .hl-card.on .a1 .sc{animation:hlsc 11s infinite}
+.js .hl-card.on .u2{animation:hlu2 11s infinite}
+.js .hl-card.on .a2{animation:hla2 11s infinite}
+@keyframes hlu1{0%{opacity:0;transform:translateY(8px)}4%,44%{opacity:1;transform:none}49%,100%{opacity:0;transform:translateY(-8px)}}
+@keyframes hla1{0%,10%{opacity:0;transform:translateY(8px)}15%,44%{opacity:1;transform:none}49%,100%{opacity:0;transform:translateY(-8px)}}
+@keyframes hlsc{0%,22%{opacity:0}27%,100%{opacity:1}}
+@keyframes hlu2{0%,51%{opacity:0;transform:translateY(8px)}55%,94%{opacity:1;transform:none}99%,100%{opacity:0}}
+@keyframes hla2{0%,60%{opacity:0;transform:translateY(8px)}65%,94%{opacity:1;transform:none}99%,100%{opacity:0}}
+
+/* B: experiment bars */
+.xb{position:absolute;left:26px;right:26px;bottom:30px;top:46px;display:flex;align-items:flex-end;gap:12px}
+.xb .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.xb .b{width:100%;border-radius:3px 3px 0 0;transform-origin:bottom}
+.xb .n{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.xb .up{background:var(--mark-up)}.xb .dn{background:var(--mark-down)}.xb .fl{background:var(--mark-flat)}
+.xb-top{position:absolute;left:26px;right:26px;top:14px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--ink-2)}
+.xb-top b{color:var(--pass);font-weight:500}
+.js .hl-card .xb .b{transform:scaleY(0);transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.js .hl-card.on .xb .b{transform:none}
+.js .hl-card.on .xb .col:nth-child(2) .b{transition-delay:.12s}
+.js .hl-card.on .xb .col:nth-child(3) .b{transition-delay:.24s}
+.js .hl-card.on .xb .col:nth-child(4) .b{transition-delay:.36s}
+.js .hl-card.on .xb .col:nth-child(5) .b{transition-delay:.48s}
+.js .hl-card.on .xb .col:nth-child(6) .b{transition-delay:.6s}
+
+/* C: deployment sectors */
+.dpv{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 26px;gap:12px}
+.dpv .big{font-family:var(--display);font-weight:700;font-size:3.4rem;line-height:1;letter-spacing:-.03em}
+.dpv .big small{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.06em;color:var(--ink-2);text-transform:uppercase}
+.dpv .chips{display:flex;flex-wrap:wrap;gap:6px}
+.dpv .chips span{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;
+  border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+.js .hl-card .dpv .chips span{opacity:0;transform:translateY(8px);transition:opacity .45s,transform .45s cubic-bezier(.2,.7,.2,1)}
+.js .hl-card.on .dpv .chips span{opacity:1;transform:none}
+.js .hl-card.on .dpv .chips span:nth-child(2){transition-delay:.1s}
+.js .hl-card.on .dpv .chips span:nth-child(3){transition-delay:.2s}
+.js .hl-card.on .dpv .chips span:nth-child(4){transition-delay:.3s}
+.js .hl-card.on .dpv .chips span:nth-child(5){transition-delay:.4s}
+.js .hl-card.on .dpv .chips span:nth-child(6){transition-delay:.5s}
+
+/* ---------- reel ---------- */
+.reel-frame{margin:0;border:1px solid var(--line-2);background:#F1F4F3;line-height:0;box-shadow:0 20px 50px rgba(15,22,25,.10)}
+.reel-frame video{display:block;width:100%;height:auto;aspect-ratio:16/9}
+
+/* ---------- motion (only with .js, i.e. reduced motion not requested) ---------- */
+.hero{position:relative}
+.hero-glow{
+  position:absolute;left:-180px;top:-120px;width:min(820px,100vw);height:min(820px,100vw);border-radius:50%;pointer-events:none;z-index:-1;
+  background:radial-gradient(circle,rgba(16,103,90,.13) 0%,rgba(16,103,90,.05) 40%,rgba(16,103,90,0) 68%);
+}
+.js .hero-glow{animation:drift 16s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(70px,40px) scale(1.08)}}
+h1 .ln{display:block}
+.js h1 .ln{overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.js h1 .ln>span{display:block;transform:translateY(108%);animation:lnup .95s cubic-bezier(.2,.7,.2,1) forwards}
+.js h1 .ln:nth-child(2)>span{animation-delay:.13s}
+@keyframes lnup{to{transform:none}}
+.js .metric{opacity:0;transform:translateY(14px);animation:fadeup .7s cubic-bezier(.2,.7,.2,1) forwards}
+.js .metric:nth-child(1){animation-delay:.45s}
+.js .metric:nth-child(2){animation-delay:.57s}
+.js .metric:nth-child(3){animation-delay:.69s}
+.js .metric:nth-child(4){animation-delay:.81s}
+@keyframes fadeup{to{opacity:1;transform:none}}
+.js .rv{opacity:0;transform:translateY(20px);transition:opacity .75s cubic-bezier(.2,.7,.2,1),transform .75s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.js .rv.in{opacity:1;transform:none}
+.js .chart .bar-fill{transform:scaleX(0);transform-origin:left;transition:transform 1.1s cubic-bezier(.2,.7,.2,1),filter .15s}
+.js .chart.in .bar-fill{transform:none}
+.js .chart.in .bar-row:nth-child(2) .bar-fill{transition-delay:.12s}
+.js .chart.in .bar-row:nth-child(3) .bar-fill{transition-delay:.24s}
+.js .chart.in .bar-row:nth-child(4) .bar-fill{transition-delay:.36s}
+.js .chart.in .bar-row:nth-child(5) .bar-fill{transition-delay:.48s}
+.js .chart.in .bar-row:nth-child(6) .bar-fill{transition-delay:.6s}
+
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
 }
@@ -375,6 +484,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <div class="wrap">
     <span class="wordmark">Syed Muhammad Hamzah Rizvi</span>
     <nav class="topnav">
+      <a href="#highlights">Highlights</a>
+      <a href="#reel">Reel</a>
       <a href="#evidence">Evidence</a>
       <a href="#deployments">Deployments</a>
       <a href="#track">Track</a>
@@ -384,14 +495,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </header>
 
 <div class="wrap hero">
+  <div class="hero-glow" aria-hidden="true"></div>
   <div class="eyebrow">Applied AI &middot; Deployment &amp; Integration &middot; Manchester, UK</div>
-  <h1>I ship AI that has to be right in production.</h1>
-  <p class="standfirst">
+  <h1><span class="ln"><span>I ship AI that has to be</span></span> <span class="ln"><span>right in production.</span></span></h1>
+  <p class="standfirst rv" style="--d:.2s">
     Three years taking AI and biometric systems from a customer's ambiguous requirements
     into live production across 10+ countries &mdash; and building the tooling that proves
     they still work once they're there.
   </p>
-  <p class="thesis">
+  <p class="thesis rv" style="--d:.32s">
     Every figure on this page names its source. Where a number is confounded or
     can't be isolated, it says so. That habit is the job: my RAG assistant refuses
     answers it can't ground in a document, and the biometric systems I deploy decide
@@ -401,7 +513,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
   <div class="metrics">
     <div class="metric">
-      <span class="fig">300+</span>
+      <span class="fig" data-count="300" data-suffix="+">300+</span>
       <span class="what">customer accounts served weekly by an assistant I built and shipped</span>
       <span class="src"><span class="tag v">Verified</span> Live traffic, GroundedOps admin console</span>
     </div>
@@ -411,17 +523,101 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <span class="src"><span class="tag c">Confounded</span> Jira, since release &mdash; ran alongside other initiatives, so not isolated to this tool</span>
     </div>
     <div class="metric">
-      <span class="fig">92.6%</span>
+      <span class="fig" data-count="92.6" data-dec="1" data-suffix="%">92.6%</span>
       <span class="what">near-group age accuracy, hierarchical EfficientNetB0 on 274k faces</span>
       <span class="src"><span class="tag v">Verified</span> <a href="https://github.com/hamzahrizvi/age-estimation-CNN" target="_blank" rel="noopener">Soft-Ordinal-7Class branch &#8599;</a></span>
     </div>
     <div class="metric">
-      <span class="fig">15</span>
+      <span class="fig" data-count="15">15</span>
       <span class="what">concurrent enterprise deployments owned end to end, across 10+ countries</span>
       <span class="src"><span class="tag v">Verified</span> Innovative Technology, Mar 2023 &ndash; present</span>
     </div>
   </div>
 </div>
+
+<section id="highlights" style="padding-bottom:30px">
+  <div class="wrap">
+    <div class="shead">
+      <h2>Highlights</h2>
+      <span class="note">Three things I've built or shipped &mdash; each card links to the evidence below</span>
+    </div>
+    <div class="hl">
+      <a class="hl-card rv" href="#groundedops" aria-label="GroundedOps: cites the page, or refuses to guess. Read the evidence.">
+        <div class="hl-vis" aria-hidden="true">
+          <div class="mw">
+            <div class="mw-h"><i>A</i>Assistant</div>
+            <div class="mw-s">Asking about<b>NV9 Spectral</b></div>
+            <div class="mw-b">
+              <div class="mm u u1">My bezel is flashing one long flash then one short flash - what's wrong?</div>
+              <div class="mm a a1">&hellip;one long flash followed by one short flash means the note path is open.
+                <span class="sc">NV9 Spectral Range User Manual v1 <span>pp. 19, 60&ndash;62</span></span></div>
+              <div class="mm u u2">What's the lead time on a 500-unit order?</div>
+              <div class="mm a a2">That is not something I have in my knowledge base, so I would rather point you at someone than guess.</div>
+            </div>
+          </div>
+        </div>
+        <div class="hl-cap">
+          <span class="k">GroundedOps &middot; in production</span>
+          <h3>Cites the page, or refuses to guess</h3>
+          <p>Answers for 300+ customer accounts a week from ~200 pages of manuals. 140+ regression tests and a 34-case eval harness gate every change.</p>
+          <span class="go">Read the evidence &darr;</span>
+        </div>
+      </a>
+
+      <a class="hl-card rv" style="--d:.1s" href="#age" aria-label="Facial age estimation: six experiments, two failures kept. See the experiment log.">
+        <div class="hl-vis" aria-hidden="true">
+          <div class="xb-top"><span>Fine-age accuracy, 6 runs</span><b>best 57.86%</b></div>
+          <div class="xb">
+            <div class="col"><div class="b fl" style="height:67%"></div><span class="n">01</span></div>
+            <div class="col"><div class="b up" style="height:84%"></div><span class="n">02</span></div>
+            <div class="col"><div class="b dn" style="height:68%"></div><span class="n">03</span></div>
+            <div class="col"><div class="b dn" style="height:49%"></div><span class="n">04</span></div>
+            <div class="col"><div class="b up" style="height:100%"></div><span class="n">05</span></div>
+            <div class="col"><div class="b fl" style="height:74%"></div><span class="n">06</span></div>
+          </div>
+        </div>
+        <div class="hl-cap">
+          <span class="k">Facial age estimation &middot; research</span>
+          <h3>Six experiments, two failures kept</h3>
+          <p>Soft ordinal labels took fine-age accuracy from 48.65% to 57.86%, and the best run reached 92.6% near-group accuracy on 274k faces.</p>
+          <span class="go">See the experiment log &darr;</span>
+        </div>
+      </a>
+
+      <a class="hl-card rv" style="--d:.2s" href="#deployments" aria-label="Biometric deployments: 15 concurrent rollouts across 10+ countries. See the deployments.">
+        <div class="hl-vis" aria-hidden="true">
+          <div class="dpv">
+            <div class="big">15<small>concurrent &middot; 10+ countries</small></div>
+            <div class="chips"><span>Gaming</span><span>Vending</span><span>Retail kiosks</span><span>Warehouse access</span><span>Online age assurance</span><span>Enablement</span></div>
+          </div>
+        </div>
+        <div class="hl-cap">
+          <span class="k">Biometric deployments &middot; 2023&ndash;now</span>
+          <h3>Fifteen live rollouts, owned end to end</h3>
+          <p>Age estimation, face payment and access control wired into machines, kiosks and warehouses that already existed, over REST APIs.</p>
+          <span class="go">See the deployments &darr;</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="reel" style="padding-top:30px">
+  <div class="wrap">
+    <div class="shead">
+      <h2>The 23-second version</h2>
+      <span class="note">Sound on if you like &mdash; it's quiet</span>
+    </div>
+    <figure class="reel-frame rv">
+      <video id="reelVid" src="img/reel.mp4" poster="img/reel.jpg" controls muted playsinline loop preload="metadata" width="1280" height="720"
+        aria-label="23-second reel: the GroundedOps assistant answering with a cited manual page, declining a question it cannot ground, then the four headline figures from this page with their source tags."></video>
+    </figure>
+    <figcaption style="margin-top:12px">
+      <b>How this was made.</b> The widget scenes are rebuilt in HTML from the live assistant's screens shown below; the second
+      question is a staged example the manuals can't answer. Every figure is the one on this page, with its tag.
+    </figcaption>
+  </div>
+</section>
 
 <hr class="rule">
 
@@ -432,7 +628,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <span class="note">Two systems, both public &mdash; read the code, check the numbers</span>
     </div>
 
-    <article class="entry">
+    <article class="entry rv" id="groundedops">
       <div>
         <h3>GroundedOps &mdash; retrieval assistant that refuses to guess</h3>
         <p class="stack">Python &middot; FastAPI &middot; React &middot; ChromaDB &middot; Ollama &middot; Docker &middot; DeepSeek / OpenAI / Claude</p>
@@ -462,7 +658,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           narrower fix that regressed nothing.
         </p>
 
-        <div class="figpair">
+        <div class="figpair rv">
           <figure>
             <span class="shot"><img src="img/answer-sources.png" alt="The assistant answering a hardware fault question, with a SOURCES panel expanded beneath the answer citing the NV9 Spectral Range User Manual v1, pages 19, 60, 61 and 62." loading="lazy"></span>
             <figcaption><b>Grounded.</b> Every answer carries the document and the page numbers it came from, so the reader can check it rather than trust it.</figcaption>
@@ -496,7 +692,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </aside>
     </article>
 
-    <article class="entry">
+    <article class="entry rv" id="age">
       <div>
         <h3>Facial age estimation &mdash; six experiments, two of them failures</h3>
         <p class="stack">TensorFlow / Keras &middot; EfficientNetB0 &middot; VGG16 &middot; 274k images &middot; WIKI / IMDB / UTKFace / FG-NET</p>
@@ -521,7 +717,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           accuracy from 48.65% to 57.86%.
         </p>
 
-        <figure class="chart">
+        <figure class="chart rv">
           <p class="chart-head">Fine-age exact accuracy, by experiment</p>
           <p class="chart-sub">Six branches, in the order they were run &middot; hover any bar for what it established</p>
           <div class="chart-legend">
@@ -587,7 +783,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </aside>
     </article>
 
-    <div class="also">
+    <div class="also rv">
       <div class="also-card">
         <span class="thumb"><img src="img/dashboard.png" alt="Manufacturing analytics dashboard showing production monitoring charts." loading="lazy"></span>
         <div class="cap">
@@ -618,7 +814,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <span class="note">Biometric and identity systems, integrated into infrastructure that already existed</span>
     </div>
     <div class="deploys">
-      <div class="dep">
+      <div class="dep rv" style="--d:0.00s">
         <span class="sector">Gaming</span>
         <h3>Age estimation on gambling machines</h3>
         <p>Integrated facial age estimation and recognition into existing gambling-machine
@@ -626,21 +822,21 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
            authentication workflows.</p>
         <p class="out">Hundreds of venues, thousands of machines nationwide &middot; real-time checks supporting underage-gambling prevention</p>
       </div>
-      <div class="dep">
+      <div class="dep rv" style="--d:0.08s">
         <span class="sector">Vending &amp; cloud</span>
         <h3>Face-based payment and account linking</h3>
         <p>Connected machine-side software to cloud customer accounts across multiple
            vending providers, enabling age verification and face-based payment.</p>
         <p class="out">Up to 25% sales increase among customers otherwise unable to purchase &mdash; forgotten ID or wallet</p>
       </div>
-      <div class="dep">
+      <div class="dep rv" style="--d:0.16s">
         <span class="sector">Retail</span>
         <h3>Self-service kiosk automation</h3>
         <p>Led systems integration for retail kiosks automating the purchase journey for
            age-restricted products, cutting dependency on manual attendant checks.</p>
         <p class="out">Up to 50 hours per month saved in customer-to-attendant interaction time</p>
       </div>
-      <div class="dep">
+      <div class="dep rv" style="--d:0.00s">
         <span class="sector">Warehouse &amp; logistics</span>
         <h3>Facial recognition access control</h3>
         <p>Rolled out employee clocking and selective-access control across warehouse sites,
@@ -648,14 +844,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
            communication.</p>
         <p class="out">Access management and time capture on one biometric identity</p>
       </div>
-      <div class="dep">
+      <div class="dep rv" style="--d:0.08s">
         <span class="sector">Online age assurance</span>
         <h3>Age verification for digital platforms</h3>
         <p>Working with online age-restriction providers to introduce an age-verification
            model for digital platforms through API integration.</p>
         <p class="out">Ongoing &middot; metrics not yet established</p>
       </div>
-      <div class="dep">
+      <div class="dep rv" style="--d:0.16s">
         <span class="sector">Internal</span>
         <h3>Enablement and documentation</h3>
         <p>Authored the integration guides, technical specifications and mapping documents
@@ -673,7 +869,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <div class="wrap">
     <div class="shead"><h2>Track</h2></div>
     <div class="tl">
-      <div class="tl-row">
+      <div class="tl-row rv">
         <div class="tl-when">Mar 2023 &ndash; present</div>
         <div class="tl-what">
           <strong>Technical Software Consultant</strong> &middot; <span class="org">Innovative Technology, Manchester</span>
@@ -682,7 +878,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
              rollout. Built and shipped the internal AI tooling the support team now runs on.</p>
         </div>
       </div>
-      <div class="tl-row">
+      <div class="tl-row rv">
         <div class="tl-when">2021 &ndash; 2022</div>
         <div class="tl-what">
           <strong>MSc Robotics and Automation</strong> &middot; <span class="org">University of Salford &mdash; Distinction</span>
@@ -690,7 +886,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
              the work that became the age-estimation repository above.</p>
         </div>
       </div>
-      <div class="tl-row">
+      <div class="tl-row rv">
         <div class="tl-when">Mar 2020 &ndash; Sep 2021</div>
         <div class="tl-what">
           <strong>Automation Engineer</strong> &middot; <span class="org">Tripack Films, Pakistan</span>
@@ -699,14 +895,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
              25% better energy efficiency, and built an in-house electrical repair capability.</p>
         </div>
       </div>
-      <div class="tl-row">
+      <div class="tl-row rv">
         <div class="tl-when">Dec 2019 &ndash; Mar 2020</div>
         <div class="tl-what">
           <strong>Software Consultant</strong> &middot; <span class="org">Evolligence, Pakistan</span>
           <p>Backend application logic over structured APIs and data-driven workflows.</p>
         </div>
       </div>
-      <div class="tl-row">
+      <div class="tl-row rv">
         <div class="tl-when">2015 &ndash; 2019</div>
         <div class="tl-what">
           <strong>BEng Electrical Engineering</strong> &middot; <span class="org">NUST, Pakistan</span>
@@ -741,7 +937,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <footer>
   <div class="wrap">
     <span>Syed Muhammad Hamzah Rizvi &middot; Applied AI, deployment &amp; integration</span>
-    <span>Every figure sourced &middot; last updated September 2026</span>
+    <span>Every figure sourced &middot; last updated October 2026</span>
   </div>
 </footer>
 
@@ -759,6 +955,37 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 })();
 </script>
 
+<script>
+(function(){
+  if(!document.documentElement.classList.contains('js')) return;
+  // reveal once on scroll
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.15,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+  // highlight demos run only while visible
+  var io2=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('on',e.isIntersecting);});},{threshold:.35});
+  document.querySelectorAll('.hl-card').forEach(function(el){io2.observe(el);});
+  // hero counters (the final text is already in the HTML, so no-JS and reduced-motion visitors see real numbers)
+  document.querySelectorAll('.metric .fig[data-count]').forEach(function(el,i){
+    var to=parseFloat(el.getAttribute('data-count')),dec=+(el.getAttribute('data-dec')||0),suf=el.getAttribute('data-suffix')||'';
+    var delay=450+i*120,dur=1200,t0=null;
+    el.textContent=(0).toFixed(dec)+suf;
+    setTimeout(function(){requestAnimationFrame(function step(ts){
+      if(t0===null)t0=ts; var p=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-p,3);
+      el.textContent=(to*e).toFixed(dec)+suf; if(p<1)requestAnimationFrame(step);
+    });},delay);
+  });
+  // reel: play muted while on screen, until the visitor pauses it themselves
+  var v=document.getElementById('reelVid');
+  if(v){
+    var auto=true,byIO=false;
+    v.addEventListener('pause',function(){if(!byIO)auto=false;byIO=false;});
+    new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting&&auto){var p=v.play();if(p&&p.catch)p.catch(function(){});}
+      else if(!e.isIntersecting&&!v.paused){byIO=true;v.pause();}
+    });},{threshold:.5}).observe(v);
+  }
+})();
+</script>
 
 </body>
 </html>
