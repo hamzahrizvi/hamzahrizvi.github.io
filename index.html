@@ -405,7 +405,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <a class="btn" href="#cv">Get my CV &darr;</a>
     </div>
   </div>
-  <div class="band" aria-hidden="true"><div class="band-track"><span>Retrieval that cites its source</span><span>Eval harnesses</span><span>Biometric deployments</span><span>REST APIs &amp; webhooks</span><span>Python &middot; FastAPI</span><span>10+ countries</span><span>Retrieval that cites its source</span><span>Eval harnesses</span><span>Biometric deployments</span><span>REST APIs &amp; webhooks</span><span>Python &middot; FastAPI</span><span>10+ countries</span></div></div>
+  <div class="band" aria-hidden="true"><div class="band-track"><span>Retrieval that cites its source</span><span>Eval harnesses</span><span>Agent orchestration</span><span>Biometric deployments</span><span>REST APIs &amp; webhooks</span><span>Python &middot; FastAPI</span><span>10+ countries</span><span>Retrieval that cites its source</span><span>Eval harnesses</span><span>Agent orchestration</span><span>Biometric deployments</span><span>REST APIs &amp; webhooks</span><span>Python &middot; FastAPI</span><span>10+ countries</span></div></div>
 </div>
 
 <section id="numbers">
@@ -453,6 +453,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <li><b>300+</b>accounts / week</li>
           <li><b>140+</b>regression tests</li>
           <li><b>34</b>eval cases</li>
+          <li><b>8</b>scheduled agent departments</li>
           <li><b>3 wrong &rarr; 8/8</b>after an inverted-gate fix</li>
         </ul>
         <details class="more">
@@ -469,6 +470,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
                to 8 out of 8.</p>
             <p>I also A/B-tested two competing fixes for a retrieval fault on parallel isolated instances, and kept the narrower one that
                regressed nothing.</p>
+            <p>Around it I built an agent office: scheduled departments that write blind test questions from the manuals, ask the
+               assistant, grade the answers, triage what failed and build fixes in separate branches. The builder never sees the
+               held-out questions, a merge gate decides what ships, and nothing merges without my yes. On its first morning it
+               failed one of its own fixes at the gate and held it back. <a href="#reel">Watch it run</a> or read the
+               <a href="https://github.com/hamzahrizvi/groundedops/tree/experimental/agent-org-phase1" target="_blank" rel="noopener">code</a>.</p>
             <div class="figpair">
               <figure>
                 <span class="shot"><img src="img/answer-sources.png" alt="The assistant answering a hardware fault question, with a SOURCES panel citing the NV9 Spectral Range User Manual v1, pages 19, 60, 61 and 62." loading="lazy"></span>
@@ -489,6 +495,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
             <div class="rows">
               <div class="row"><span>Regression tests, each tied to a named bug</span><span class="v good">140+</span></div>
               <div class="row"><span>Eval harness cases gating every change</span><span class="v good">34</span></div>
+              <div class="row"><span>Test-runner checks passing, 8 Oct 2026 (one browser test failing, one skipped)</span><span class="v good">327/328</span></div>
+              <div class="row"><span>Agent departments: 4 running, 4 scheduled (from the office's task files)</span><span class="v good">8</span></div>
               <div class="row"><span>Reference corpus</span><span class="v">~200 pp</span></div>
             </div>
             <a class="src-link" href="https://github.com/hamzahrizvi/groundedops" target="_blank" rel="noopener">github.com/hamzahrizvi/groundedops &#8599;</a>
