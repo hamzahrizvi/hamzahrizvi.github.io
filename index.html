@@ -27,911 +27,578 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap">
 <script>
-/* Motion is opt-in: only add the start-hidden states when the visitor has not asked for reduced motion. */
+/* Motion is opt-in: the start-hidden states only exist when the visitor has not asked for reduced motion. */
 if(!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)&&'IntersectionObserver' in window){document.documentElement.classList.add('js')}
 </script>
 </head>
 <body>
 <style>
 :root{
-  --ground:#F1F4F3;
-  --surface:#FFFFFF;
-  --sunk:#E6EBE9;
-  --ink:#0F1619;
-  --ink-2:#38474C;
-  --muted:#657A80;
-  --line:#D3DCDA;
-  --line-2:#BFCBC8;
-  --pass:#10675A;
-  --pass-soft:#DCEDE8;
-  --caveat:#8A6516;
-  --caveat-soft:#F4EBD7;
-  /* chart marks - validated pair, all six checks pass on this surface */
-  --mark-up:#0C8A70;
-  --mark-down:#A0710E;
-  --mark-flat:#8A9A9E;
+  --ground:#F1F4F3;--surface:#FFFFFF;--sunk:#E6EBE9;
+  --ink:#0F1619;--ink-2:#38474C;--muted:#5E7378;
+  --line:#D3DCDA;--line-2:#BFCBC8;
+  --pass:#10675A;--pass-soft:#DCEDE8;
+  --caveat:#8A6516;--caveat-soft:#F4EBD7;
+  --mark-up:#0C8A70;--mark-down:#A0710E;--mark-flat:#8A9A9E;
   --shot:#FFFFFF;
   --display:'Archivo','Helvetica Neue',Arial,sans-serif;
   --body:'IBM Plex Serif',Georgia,'Times New Roman',serif;
   --mono:'IBM Plex Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
-  --wrap:1080px;
+  --wrap:1120px;
+  --ease:cubic-bezier(.2,.7,.2,1);
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --ground:#0C1113;
-    --surface:#131B1E;
-    --sunk:#0A0F11;
-    --ink:#E8EEEC;
-    --ink-2:#B4C3C2;
-    --muted:#7F9296;
-    --line:#222E32;
-    --line-2:#314046;
-    --pass:#43C4AB;
-    --pass-soft:#0F2A28;
-    --caveat:#D9A94B;
-    --caveat-soft:#2A2213;
-    --mark-up:#27A188;
-    --mark-down:#B68A2B;
-    --mark-flat:#66787D;
+    --ground:#0C1113;--surface:#131B1E;--sunk:#0A0F11;
+    --ink:#E8EEEC;--ink-2:#B4C3C2;--muted:#8A9DA1;
+    --line:#222E32;--line-2:#314046;
+    --pass:#43C4AB;--pass-soft:#0F2A28;
+    --caveat:#D9A94B;--caveat-soft:#2A2213;
+    --mark-up:#27A188;--mark-down:#B68A2B;--mark-flat:#66787D;
     --shot:#F4F6F5;
   }
 }
 :root[data-theme="dark"]{
-  --ground:#0C1113;
-  --surface:#131B1E;
-  --sunk:#0A0F11;
-  --ink:#E8EEEC;
-  --ink-2:#B4C3C2;
-  --muted:#7F9296;
-  --line:#222E32;
-  --line-2:#314046;
-  --pass:#43C4AB;
-  --pass-soft:#0F2A28;
-  --caveat:#D9A94B;
-  --caveat-soft:#2A2213;
-  --mark-up:#27A188;
-  --mark-down:#B68A2B;
-  --mark-flat:#66787D;
+  --ground:#0C1113;--surface:#131B1E;--sunk:#0A0F11;
+  --ink:#E8EEEC;--ink-2:#B4C3C2;--muted:#8A9DA1;
+  --line:#222E32;--line-2:#314046;
+  --pass:#43C4AB;--pass-soft:#0F2A28;
+  --caveat:#D9A94B;--caveat-soft:#2A2213;
+  --mark-up:#27A188;--mark-down:#B68A2B;--mark-flat:#66787D;
   --shot:#F4F6F5;
 }
 
 *{box-sizing:border-box}
-body{
-  margin:0;background:var(--ground);color:var(--ink);
-  font-family:var(--body);font-size:16.5px;line-height:1.62;
-  -webkit-font-smoothing:antialiased;overflow-x:clip;
-}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--pass);outline-offset:3px;border-radius:2px}
+.mono{font-family:var(--mono)}
 
-/* ---------- masthead ---------- */
-.top{border-bottom:1px solid var(--line);background:var(--surface)}
-.top .wrap{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
-.wordmark{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.01em}
-.topnav{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+/* ---------- progress + masthead ---------- */
+.progress{position:fixed;left:0;top:0;height:3px;width:100%;background:var(--pass);transform-origin:0 50%;transform:scaleX(0);z-index:60;pointer-events:none}
+.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--surface) 86%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:13px;padding-bottom:13px;flex-wrap:wrap}
+.wordmark{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.01em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.wordmark i{width:20px;height:20px;border-radius:4px;background:var(--pass);display:inline-flex;align-items:center;justify-content:center}
+.wordmark svg{width:13px;height:13px}
+.topnav{display:flex;flex-wrap:wrap;gap:6px 22px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
 .topnav a{text-decoration:none}
 .topnav a:hover{color:var(--pass)}
 
 /* ---------- hero ---------- */
-.hero{padding:64px 28px 20px}
-.eyebrow{
-  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--pass);display:flex;align-items:center;gap:9px;margin-bottom:22px;
-}
-.eyebrow::before{content:"";width:22px;height:1px;background:var(--pass);flex:none}
-h1{
-  font-family:var(--display);font-weight:700;
-  font-size:clamp(2.6rem,6.4vw,4.3rem);line-height:1.02;letter-spacing:-.028em;
-  margin:0 0 22px;text-wrap:balance;max-width:17ch;
-}
-.standfirst{font-size:1.21rem;line-height:1.58;max-width:60ch;color:var(--ink-2);margin:0 0 14px}
-.standfirst em{color:var(--ink);font-style:italic}
-.thesis{
-  font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--muted);
-  max-width:62ch;margin:0;padding-left:14px;border-left:2px solid var(--line-2);
-}
+.hero{position:relative;padding:96px 0 0;isolation:isolate;overflow:hidden}
+.hero-glow{position:absolute;left:-12%;top:-30%;width:min(900px,110vw);aspect-ratio:1;border-radius:50%;z-index:-1;pointer-events:none;
+  background:radial-gradient(circle,color-mix(in srgb,var(--pass) 16%,transparent) 0%,color-mix(in srgb,var(--pass) 5%,transparent) 42%,transparent 68%)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pass);display:flex;align-items:center;gap:10px;margin:0 0 26px}
+.eyebrow::before{content:"";width:26px;height:1.5px;background:var(--pass);flex:none}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.9rem,8.2vw,6.4rem);line-height:.98;letter-spacing:-.038em;margin:0 0 30px;max-width:14ch}
+h1 .wd{display:inline-block;white-space:nowrap}
+h1 .g{color:var(--pass)}
+h1 .u{position:relative;display:inline-block;vertical-align:bottom;color:var(--pass);white-space:nowrap}
+h1 .u svg{position:absolute;left:0;bottom:-.14em;width:100%;height:.22em;overflow:visible}
+h1 .u path{fill:none;stroke:var(--pass);stroke-width:5;stroke-linecap:round}
+.lede{font-size:clamp(1.15rem,2.1vw,1.42rem);line-height:1.5;color:var(--ink-2);max-width:40ch;margin:0 0 18px}
+.proof{font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;color:var(--ink-2);display:flex;align-items:center;gap:10px;margin:0 0 34px}
+.proof .dot{width:8px;height:8px;border-radius:50%;background:var(--pass);flex:none;box-shadow:0 0 0 0 color-mix(in srgb,var(--pass) 45%,transparent)}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:76px}
+.btn{font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;padding:13px 20px;border:1.5px solid var(--ink);color:var(--ink);display:inline-flex;gap:10px;align-items:center;transition:background .2s,color .2s,transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.primary{background:var(--ink);color:var(--ground)}
+.btn.primary:hover{background:var(--pass);border-color:var(--pass)}
 
-/* ---------- metric strip ---------- */
-.metrics{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));
-  gap:0;margin:44px 0 0;border:1px solid var(--line);background:var(--surface);
-}
-.metric{padding:24px 26px 22px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:7px}
-.metric:last-child{border-right:none}
-.metric .fig{
-  font-family:var(--display);font-weight:700;font-size:2.45rem;line-height:1;
-  letter-spacing:-.03em;font-variant-numeric:tabular-nums;
-}
-.metric .what{font-size:.95rem;color:var(--ink-2);line-height:1.42}
-.src{
-  font-family:var(--mono);font-size:10.5px;line-height:1.55;color:var(--muted);
-  letter-spacing:.02em;margin-top:auto;padding-top:10px;
-  display:flex;gap:7px;align-items:flex-start;
-}
-.src .tag{
-  flex:none;text-transform:uppercase;letter-spacing:.08em;font-weight:500;
-  padding:1px 5px;border-radius:2px;
-}
-.tag.v{background:var(--pass-soft);color:var(--pass)}
-.tag.c{background:var(--caveat-soft);color:var(--caveat)}
-.src a{color:var(--pass)}
-
-@media(max-width:760px){
-  .metric{border-right:none;border-bottom:1px solid var(--line)}
-  .metric:last-child{border-bottom:none}
-}
+/* keyword band */
+.band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface);overflow:hidden;white-space:nowrap}
+.band-track{display:inline-flex;gap:0;padding:15px 0}
+.band-track span{font-family:var(--display);font-weight:700;font-size:clamp(1.1rem,2.2vw,1.55rem);letter-spacing:-.01em;padding:0 22px;display:inline-flex;align-items:center;gap:44px}
+.band-track span::after{content:"";width:9px;height:9px;background:var(--pass);transform:rotate(45deg);display:inline-block}
 
 /* ---------- sections ---------- */
-section{padding:62px 0}
-.rule{border:0;border-top:1px solid var(--line);margin:0}
-.shead{display:flex;align-items:baseline;gap:14px;margin-bottom:34px;flex-wrap:wrap}
-.shead h2{
-  font-family:var(--display);font-weight:700;font-size:1.62rem;letter-spacing:-.018em;margin:0;
-}
-.shead .note{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.03em}
+section{padding:96px 0}
+.sh{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin:0 0 44px}
+.sh h2{font-family:var(--display);font-weight:800;font-size:clamp(2rem,4.4vw,3.2rem);letter-spacing:-.03em;line-height:1;margin:0;overflow:hidden}
+.sh h2 span{display:inline-block}
+.sh .n{font-family:var(--mono);font-size:12px;color:var(--pass);letter-spacing:.1em}
+.sh .note{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.03em}
 
-/* ---------- work entries ---------- */
-.entry{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:46px;align-items:start}
-.entry + .entry{margin-top:52px;padding-top:52px;border-top:1px solid var(--line)}
-.entry h3{
-  font-family:var(--display);font-weight:600;font-size:1.3rem;letter-spacing:-.012em;
-  margin:0 0 4px;
-}
-.stack{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin:0 0 16px;letter-spacing:.02em}
-.entry p{margin:0 0 13px;max-width:64ch}
-.entry p:last-child{margin-bottom:0}
-.pull{
-  border-left:2px solid var(--pass);padding:3px 0 3px 16px;margin:18px 0;
-  font-style:italic;color:var(--ink-2);max-width:60ch;
-}
+/* ---------- numbers ---------- */
+.nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+@media(max-width:980px){.nums{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.nums{grid-template-columns:1fr}}
+.num{background:var(--surface);padding:28px 26px 24px;display:flex;flex-direction:column;gap:10px;min-height:330px}
+.viz{height:92px;display:flex;align-items:center}
+.ring{width:92px;height:92px;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:9}
+.ring .trk{stroke:var(--sunk)}
+.ring .arc{stroke:var(--pass);stroke-linecap:round}
+.dots{display:grid;grid-template-columns:repeat(5,14px);gap:7px}
+.dots i{width:14px;height:14px;border-radius:50%;background:var(--pass)}
+.fall{gap:14px;align-items:flex-end;height:92px}
+.fall i{width:34px;height:92px;background:var(--sunk);position:relative;display:block;border-radius:3px 3px 0 0;overflow:hidden}
+.fall i::after{content:"";position:absolute;left:0;right:0;bottom:0;height:var(--h);background:var(--mark-down);border-radius:3px 3px 0 0;transform-origin:50% 100%}
+.big{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,4.6vw,3.5rem);line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.big.sm{font-size:clamp(2.1rem,3.3vw,2.75rem);white-space:nowrap;line-height:1.27}
+.lbl{font-size:1rem;line-height:1.4;color:var(--ink-2)}
+.src{margin-top:auto;font-family:var(--mono);font-size:11px;line-height:1.5;color:var(--muted);display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap}
+.src a{color:var(--pass)}
+.tag{font-style:normal;text-transform:uppercase;letter-spacing:.08em;font-weight:500;padding:1px 6px;border-radius:2px;flex:none}
+.tag.v{background:var(--pass-soft);color:var(--pass)}
+.tag.c{background:var(--caveat-soft);color:var(--caveat)}
 
-/* result table in the aside */
-.aside{
-  background:var(--surface);border:1px solid var(--line);padding:18px 20px;
-  position:sticky;top:20px;
-}
-.aside h4{
-  font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;
-  color:var(--muted);margin:0 0 14px;font-weight:500;
-}
-.rows{display:flex;flex-direction:column;gap:0}
-.row{
-  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
-  padding:8px 0;border-bottom:1px dotted var(--line-2);font-size:.88rem;
-}
-.row:last-child{border-bottom:none}
-.row .k{color:var(--ink-2);line-height:1.32}
-.row .v{font-family:var(--mono);font-weight:500;font-variant-numeric:tabular-nums;flex:none;font-size:.86rem}
-.v.good{color:var(--pass)}
-.v.bad{color:var(--caveat)}
-.aside .foot{
-  font-family:var(--mono);font-size:10px;line-height:1.6;color:var(--muted);
-  margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);
-}
-.aside .foot a{color:var(--pass)}
+/* ---------- work ---------- */
+.w{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:56px;align-items:center}
+.w + .w{margin-top:88px}
+.w.flip .w-txt{order:2}
+@media(max-width:900px){.w{grid-template-columns:1fr;gap:28px}.w.flip .w-txt{order:0}}
+.k{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--pass);margin:0 0 14px}
+.w h3{font-family:var(--display);font-weight:800;font-size:clamp(1.9rem,3.6vw,2.7rem);line-height:1.02;letter-spacing:-.032em;margin:0 0 16px}
+.w-txt>p{margin:0 0 20px;color:var(--ink-2);font-size:1.08rem;max-width:44ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px;padding:0;list-style:none}
+.chips li{font-family:var(--mono);font-size:12px;border:1px solid var(--line-2);background:var(--surface);padding:7px 11px}
+.chips b{font-family:var(--display);font-weight:800;font-size:15px;margin-right:6px;color:var(--ink)}
+.w-vis{position:relative;height:400px;background:var(--sunk);border:1px solid var(--line);overflow:hidden}
 
-@media(max-width:900px){
-  .entry{grid-template-columns:1fr;gap:26px}
-  .aside{position:static}
-}
+/* GroundedOps graphic: retrieve, cite, or decline */
+.gv .doc{position:absolute;width:150px;height:200px;background:var(--surface);border:1px solid var(--line-2);border-radius:6px;box-shadow:0 10px 24px rgba(15,22,25,.08);padding:18px 16px;display:flex;flex-direction:column;gap:11px}
+.gv .doc i{display:block;height:7px;border-radius:4px;background:var(--line)}
+.gv .doc i:nth-child(2n){width:78%}
+.gv .doc{width:min(150px,30%)}
+.gv .d3{left:6%;top:96px;transform:rotate(-8deg)}
+.gv .d2{left:9%;top:88px;transform:rotate(-3deg)}
+.gv .d1{left:12%;top:84px}
+.gv .d1 i.hit{position:relative}
+.gv .d1 i.hit::after{content:"";position:absolute;inset:-4px -6px;border-radius:5px;background:var(--pass);opacity:0}
+.gv .scan{position:absolute;left:8px;right:8px;top:14px;height:2px;background:var(--pass);opacity:0;box-shadow:0 0 12px var(--pass)}
+.gv .pg{position:absolute;left:calc(12% + min(150px,30%) - 34px);top:146px;font-family:var(--mono);font-size:12px;font-weight:500;color:#fff;background:var(--pass);padding:4px 9px;border-radius:12px;opacity:0;white-space:nowrap}
+.gv .ans{position:absolute;right:5%;width:min(240px,46%);padding:16px 18px;background:var(--surface);border:1.5px solid var(--line-2);border-radius:10px;display:flex;flex-direction:column;gap:6px;font-family:var(--display);font-weight:700;font-size:16px}
+.gv .ans em{font-style:normal;font-family:var(--mono);font-weight:400;font-size:11.5px;color:var(--muted)}
+.gv .ans b{display:inline-flex;align-items:center;gap:8px}
+.gv .ans b::before{content:"";width:16px;height:16px;border-radius:50%;flex:none}
+.gv .ok{top:120px;border-color:var(--pass)}
+.gv .ok b::before{background:var(--pass)}
+.gv .no{top:206px;border-color:var(--caveat)}
+.gv .no b::before{background:var(--caveat)}
+.gv .q{position:absolute;left:24px;bottom:24px;right:24px;font-family:var(--mono);font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between}
 
-/* ---------- deployment grid ---------- */
-.deploys{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
-.dep{background:var(--surface);padding:22px 24px;display:flex;flex-direction:column;gap:9px}
-.dep .sector{
-  font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--pass);
-}
-.dep h3{font-family:var(--display);font-weight:600;font-size:1.03rem;margin:0;letter-spacing:-.008em}
-.dep p{margin:0;font-size:.93rem;color:var(--ink-2);line-height:1.5}
-.dep .out{
-  font-family:var(--mono);font-size:11px;color:var(--ink);margin-top:auto;padding-top:11px;
-  border-top:1px dotted var(--line-2);line-height:1.5;
-}
+/* Age graphic: six runs */
+.av{display:flex;flex-direction:column;padding:26px 30px 22px}
+.av .hd{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.av .hd b{color:var(--pass);font-weight:500}
+.av .bars{flex:1;display:flex;align-items:flex-end;gap:14px;padding-top:30px}
+.av .col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px}
+.av .v{font-family:var(--mono);font-size:11.5px;color:var(--ink-2)}
+.av .b{width:100%;border-radius:4px 4px 0 0;transform-origin:50% 100%}
+.av .up{background:var(--mark-up)}.av .dn{background:var(--mark-down)}.av .fl{background:var(--mark-flat)}
+.av .n{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.av .best .v{color:var(--pass);font-weight:500}
 
-/* ---------- timeline ---------- */
-.tl{display:flex;flex-direction:column}
-.tl-row{
-  display:grid;grid-template-columns:168px minmax(0,1fr);gap:28px;
-  padding:17px 0;border-top:1px solid var(--line);
-}
-.tl-row:last-child{border-bottom:1px solid var(--line)}
-.tl-when{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.02em;padding-top:3px}
-.tl-what strong{font-family:var(--display);font-weight:600;font-size:1.02rem;letter-spacing:-.008em}
-.tl-what .org{color:var(--ink-2)}
-.tl-what p{margin:5px 0 0;font-size:.93rem;color:var(--ink-2);max-width:64ch}
-@media(max-width:680px){
-  .tl-row{grid-template-columns:1fr;gap:5px}
-}
+/* Deployment graphic: six sectors */
+.dv{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:1px;background:var(--line)}
+.dv .t{background:var(--surface);padding:18px 18px;display:flex;flex-direction:column;justify-content:space-between;position:relative}
+.dv .t::before{content:"";position:absolute;inset:0;border:2px solid var(--pass);opacity:0;pointer-events:none}
+.dv .s{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--pass)}
+.dv .st{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,2.6vw,2rem);letter-spacing:-.03em;line-height:1}
+.dv .d{font-size:.84rem;line-height:1.35;color:var(--ink-2)}
+@media(max-width:520px){.dv{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,1fr)}}
 
-
-/* ---------- figures ---------- */
+/* evidence drawers */
+details.more{margin-top:4px;border-top:1px solid var(--line)}
+details.more summary{list-style:none;cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pass);padding:14px 0;display:flex;align-items:center;gap:10px}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"+";font-size:16px;width:14px}
+details.more[open] summary::before{content:"\2212"}
+.more-body{padding:6px 0 10px;font-size:.98rem;color:var(--ink-2)}
+.more-body p{margin:0 0 13px;max-width:66ch}
+.more-body .stack{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.pull{border-left:2px solid var(--pass);padding:3px 0 3px 16px;margin:18px 0;font-style:italic;color:var(--ink);max-width:62ch}
+.figpair{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;margin:20px 0}
+@media(max-width:620px){.figpair{grid-template-columns:1fr}}
 figure{margin:0}
-.figpair{
-  display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;
-  margin:26px 0 4px;
-}
-.shot{
-  background:var(--shot);border:1px solid var(--line-2);padding:0;
-  display:block;overflow:hidden;
-}
+.shot{background:var(--shot);border:1px solid var(--line-2);display:block;overflow:hidden}
 .shot img{display:block;width:100%;height:auto}
-figcaption{
-  font-family:var(--mono);font-size:10.5px;line-height:1.6;color:var(--muted);
-  margin-top:9px;letter-spacing:.02em;
-}
+figcaption{font-family:var(--mono);font-size:10.5px;line-height:1.6;color:var(--muted);margin-top:9px;letter-spacing:.02em}
 figcaption b{color:var(--ink-2);font-weight:500}
-@media(max-width:620px){ .figpair{grid-template-columns:1fr} }
-
-/* ---------- gif demo ---------- */
-.demo{margin:30px 0 4px}
-.demo-frame{
-  position:relative;background:var(--shot);border:1px solid var(--line-2);
-  display:block;width:100%;padding:0;cursor:pointer;overflow:hidden;
-}
+.demo{margin:20px 0 6px}
+.demo-frame{position:relative;background:var(--shot);border:1px solid var(--line-2);display:block;width:100%;padding:0;cursor:pointer;overflow:hidden}
 .demo-frame img{display:block;width:100%;height:auto}
-.demo-frame .play{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  background:rgba(9,18,20,.34);transition:background .15s;
-}
-.demo-frame:hover .play{background:rgba(9,18,20,.2)}
-.demo-frame .play span{
-  font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-  color:#fff;border:1px solid rgba(255,255,255,.85);padding:11px 20px;
-  background:rgba(9,18,20,.5);
-}
+.demo-frame .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(9,18,20,.34)}
+.demo-frame .play span{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,.85);padding:11px 20px;background:rgba(9,18,20,.5)}
 .demo-frame.playing .play{display:none}
+.rows{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:18px 0}
+.row{background:var(--surface);padding:12px 14px;display:flex;justify-content:space-between;gap:12px;font-size:.88rem}
+.row .v{font-family:var(--mono);font-weight:500;flex:none}
+.v.good{color:var(--pass)}.v.bad{color:var(--caveat)}
+.chart{margin:20px 0 8px;border:1px solid var(--line);background:var(--surface);padding:18px 20px 14px}
+.chart-head{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 14px}
+.bars2{display:flex;flex-direction:column;gap:10px}
+.bar-top{display:flex;justify-content:space-between;gap:12px;font-size:.86rem;color:var(--ink-2)}
+.bar-top .val{font-family:var(--mono);font-weight:500;color:var(--ink)}
+.bar-track{background:var(--sunk);height:13px;margin-top:4px}
+.bar-fill{height:100%;display:block;border-radius:0 3px 3px 0}
+.up .bar-fill{background:var(--mark-up)}.down .bar-fill{background:var(--mark-down)}.flat .bar-fill{background:var(--mark-flat)}
+.chart-foot{font-family:var(--mono);font-size:10px;line-height:1.65;color:var(--muted);margin:12px 0 0}
+.deplist{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px 22px;margin:10px 0}
+.deplist h4{font-family:var(--display);font-weight:700;font-size:1rem;margin:0 0 4px;color:var(--ink)}
+.deplist p{margin:0;font-size:.9rem}
+.src-link{font-family:var(--mono);font-size:11.5px;color:var(--pass)}
 
-/* ---------- experiment chart ---------- */
-.chart{
-  margin:26px 0 6px;border:1px solid var(--line);background:var(--surface);
-  padding:20px 22px 16px;
-}
-.chart-head{
-  font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;
-  color:var(--muted);margin:0 0 4px;
-}
-.chart-sub{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin:0 0 18px}
-.bars{display:flex;flex-direction:column;gap:11px}
-.bar-row{display:grid;grid-template-columns:minmax(0,1fr);gap:5px}
-.bar-top{
-  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
-  font-size:.87rem;color:var(--ink-2);line-height:1.3;
-}
-.bar-top .n{font-family:var(--mono);color:var(--muted);font-size:.78rem;margin-right:7px}
-.bar-top .val{
-  font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;
-  flex:none;font-size:.85rem;color:var(--ink);
-}
-.bar-track{background:var(--sunk);height:15px;width:100%;position:relative}
-.bar-fill{
-  height:100%;border-radius:0 3px 3px 0;transition:filter .15s;
-  display:block;
-}
-.bar-row:hover .bar-fill{filter:brightness(1.08)}
-.up .bar-fill{background:var(--mark-up)}
-.down .bar-fill{background:var(--mark-down)}
-.flat .bar-fill{background:var(--mark-flat)}
-.flag{
-  font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.09em;
-  padding:1px 5px;border-radius:2px;flex:none;margin-left:8px;
-}
-.flag.d{background:var(--caveat-soft);color:var(--caveat)}
-.flag.u{background:var(--pass-soft);color:var(--pass)}
-.chart-axis{
-  display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;
-  color:var(--muted);margin-top:12px;padding-top:8px;border-top:1px solid var(--line);
-  font-variant-numeric:tabular-nums;
-}
-.chart-foot{
-  font-family:var(--mono);font-size:10px;line-height:1.65;color:var(--muted);
-  margin:12px 0 0;
-}
-.chart-legend{
-  display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;
-  color:var(--muted);margin:0 0 16px;letter-spacing:.02em;
-}
-.chart-legend i{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:baseline}
-.chart-legend .lu{background:var(--mark-up)}
-.chart-legend .ld{background:var(--mark-down)}
-.chart-legend .lf{background:var(--mark-flat)}
+.also{display:flex;flex-wrap:wrap;gap:10px;margin-top:56px;align-items:center}
+.also span{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-right:6px}
+.also a{font-family:var(--mono);font-size:12px;text-decoration:none;border:1px solid var(--line-2);padding:8px 12px;background:var(--surface)}
+.also a:hover{border-color:var(--pass);color:var(--pass)}
 
-/* ---------- also-public strip ---------- */
-.also{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;margin-top:14px}
-.also-card{border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column}
-.also-card .cap{padding:16px 18px;display:flex;flex-direction:column;gap:7px}
-.also-card h3{font-family:var(--display);font-weight:600;font-size:1rem;margin:0}
-.also-card p{margin:0;font-size:.9rem;color:var(--ink-2);line-height:1.5}
-.also-card .lk{font-family:var(--mono);font-size:10.5px;color:var(--pass);margin-top:2px}
-.also-card .thumb{background:var(--shot);border-bottom:1px solid var(--line);display:block}
-.also-card .thumb img{display:block;width:100%;height:auto}
+/* ---------- reel ---------- */
+.reel-frame{margin:0;border:1px solid var(--line-2);background:#F1F4F3;line-height:0;box-shadow:0 24px 60px rgba(15,22,25,.12)}
+.reel-frame video{display:block;width:100%;height:auto;aspect-ratio:16/9}
+.reel-cap{margin-top:12px}
+
+/* ---------- track ---------- */
+.tl{position:relative;padding-left:30px}
+.tl::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.tl .line{position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--pass);transform-origin:50% 0}
+.tl-row{position:relative;display:grid;grid-template-columns:150px minmax(0,1fr);gap:24px;padding:16px 0}
+.tl-row::before{content:"";position:absolute;left:-30px;top:23px;width:14px;height:14px;border-radius:50%;background:var(--ground);border:2px solid var(--pass)}
+.tl-when{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:3px}
+.tl-what{font-size:1.02rem;color:var(--ink-2)}
+.tl-what strong{font-family:var(--display);font-weight:700;color:var(--ink);font-size:1.12rem}
+@media(max-width:620px){.tl-row{grid-template-columns:1fr;gap:2px}}
 
 /* ---------- contact ---------- */
-.contact{background:var(--surface);border-top:1px solid var(--line)}
-.contact .wrap{padding-top:52px;padding-bottom:52px}
-.clinks{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
-.clink{
-  display:inline-flex;align-items:center;gap:9px;text-decoration:none;
-  font-family:var(--mono);font-size:12.5px;letter-spacing:.02em;
-  border:1px solid var(--line-2);padding:9px 15px;color:var(--ink);
-  transition:border-color .15s,color .15s;
-}
-.clink:hover{border-color:var(--pass);color:var(--pass)}
-.clink .ck{color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:.09em}
-.clink:hover .ck{color:var(--pass)}
-.status{
-  font-family:var(--mono);font-size:11.5px;line-height:1.7;color:var(--muted);
-  margin:26px 0 0;padding-top:18px;border-top:1px solid var(--line);max-width:64ch;
-}
-.status strong{color:var(--ink-2);font-weight:500}
-
+.contact{background:var(--ink);color:var(--ground);padding:96px 0}
+.contact h2{font-family:var(--display);font-weight:800;font-size:clamp(3rem,9vw,6.6rem);line-height:.95;letter-spacing:-.045em;margin:0 0 22px;overflow:hidden}
+.contact h2 span{display:inline-block}
+.contact p{font-size:1.2rem;max-width:44ch;margin:0 0 30px;opacity:.86}
+.clinks{display:flex;flex-wrap:wrap;gap:10px}
+.clink{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--mono);font-size:13px;border:1.5px solid color-mix(in srgb,var(--ground) 40%,transparent);padding:12px 16px;color:var(--ground);transition:border-color .2s,background .2s,color .2s}
+.clink:hover{background:var(--ground);color:var(--ink)}
+.clink .ck{opacity:.7;text-transform:uppercase;font-size:10.5px;letter-spacing:.09em}
+.contact .status{font-family:var(--mono);font-size:12px;line-height:1.7;margin:34px 0 0;padding-top:20px;border-top:1px solid color-mix(in srgb,var(--ground) 22%,transparent);max-width:66ch;opacity:.8}
 footer{padding:22px 0;font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.03em}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
-/* ---------- highlights ---------- */
-.hl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-@media(max-width:900px){.hl{grid-template-columns:1fr}}
-.hl-card{
-  background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;
-  text-decoration:none;color:inherit;transition:border-color .2s,transform .25s,box-shadow .25s;
-}
-.hl-card:hover{border-color:var(--pass);transform:translateY(-3px);box-shadow:0 16px 34px rgba(15,22,25,.09)}
-.hl-vis{height:262px;background:var(--sunk);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
-.hl-cap{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
-.hl-cap .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--pass)}
-.hl-cap h3{font-family:var(--display);font-weight:600;font-size:1.1rem;margin:0;letter-spacing:-.01em}
-.hl-cap p{margin:0;font-size:.92rem;color:var(--ink-2);line-height:1.5}
-.hl-cap .go{font-family:var(--mono);font-size:11px;color:var(--pass);margin-top:auto;padding-top:6px}
-
-/* A: mini assistant (rebuilt in HTML from the live widget) */
-.mw{position:absolute;inset:16px 22px;background:#fff;border-radius:12px;overflow:hidden;
-  box-shadow:0 10px 26px rgba(15,22,25,.12);font-family:var(--display);color:#1d252c}
-.mw-h{height:32px;background:#0e7350;color:#fff;display:flex;align-items:center;gap:8px;padding:0 12px;font-weight:700;font-size:12px}
-.mw-h i{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.25);display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:9.5px}
-.mw-s{height:22px;background:#eceff1;display:flex;align-items:center;padding:0 12px;font-size:10px;color:#4f5b65;font-weight:500}
-.mw-s b{color:#1d252c;margin-left:3px}
-.mw-b{position:absolute;left:0;right:0;top:54px;bottom:0;padding:10px 12px}
-.mm{position:absolute;max-width:82%;font-size:10.8px;line-height:1.36;font-weight:500;padding:7px 10px;border-radius:11px}
-.mm.u{right:12px;background:#2e3a44;color:#fff}
-.mm.a{left:12px;background:#f2f4f6}
-.mm .sc{display:block;margin-top:6px;padding-top:5px;border-top:1px solid #dde2e6;font-size:10px;font-weight:700}
-.mm .sc span{color:#56626c;font-weight:600}
-.u1{top:8px}.a1{top:54px}.u2{top:10px}.a2{top:46px}
-.u2,.a2{opacity:0}
-.js .hl-card.on .u1{animation:hlu1 11s infinite}
-.js .hl-card.on .a1{animation:hla1 11s infinite}
-.js .hl-card.on .a1 .sc{animation:hlsc 11s infinite}
-.js .hl-card.on .u2{animation:hlu2 11s infinite}
-.js .hl-card.on .a2{animation:hla2 11s infinite}
-@keyframes hlu1{0%{opacity:0;transform:translateY(8px)}4%,44%{opacity:1;transform:none}49%,100%{opacity:0;transform:translateY(-8px)}}
-@keyframes hla1{0%,10%{opacity:0;transform:translateY(8px)}15%,44%{opacity:1;transform:none}49%,100%{opacity:0;transform:translateY(-8px)}}
-@keyframes hlsc{0%,22%{opacity:0}27%,100%{opacity:1}}
-@keyframes hlu2{0%,51%{opacity:0;transform:translateY(8px)}55%,94%{opacity:1;transform:none}99%,100%{opacity:0}}
-@keyframes hla2{0%,60%{opacity:0;transform:translateY(8px)}65%,94%{opacity:1;transform:none}99%,100%{opacity:0}}
-
-/* B: experiment bars */
-.xb{position:absolute;left:26px;right:26px;bottom:30px;top:46px;display:flex;align-items:flex-end;gap:12px}
-.xb .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
-.xb .b{width:100%;border-radius:3px 3px 0 0;transform-origin:bottom}
-.xb .n{font-family:var(--mono);font-size:10px;color:var(--muted)}
-.xb .up{background:var(--mark-up)}.xb .dn{background:var(--mark-down)}.xb .fl{background:var(--mark-flat)}
-.xb-top{position:absolute;left:26px;right:26px;top:14px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--ink-2)}
-.xb-top b{color:var(--pass);font-weight:500}
-.js .hl-card .xb .b{transform:scaleY(0);transition:transform .9s cubic-bezier(.2,.7,.2,1)}
-.js .hl-card.on .xb .b{transform:none}
-.js .hl-card.on .xb .col:nth-child(2) .b{transition-delay:.12s}
-.js .hl-card.on .xb .col:nth-child(3) .b{transition-delay:.24s}
-.js .hl-card.on .xb .col:nth-child(4) .b{transition-delay:.36s}
-.js .hl-card.on .xb .col:nth-child(5) .b{transition-delay:.48s}
-.js .hl-card.on .xb .col:nth-child(6) .b{transition-delay:.6s}
-
-/* C: deployment sectors */
-.dpv{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 26px;gap:12px}
-.dpv .big{font-family:var(--display);font-weight:700;font-size:3.4rem;line-height:1;letter-spacing:-.03em}
-.dpv .big small{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.06em;color:var(--ink-2);text-transform:uppercase}
-.dpv .chips{display:flex;flex-wrap:wrap;gap:6px}
-.dpv .chips span{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;
-  border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
-.js .hl-card .dpv .chips span{opacity:0;transform:translateY(8px);transition:opacity .45s,transform .45s cubic-bezier(.2,.7,.2,1)}
-.js .hl-card.on .dpv .chips span{opacity:1;transform:none}
-.js .hl-card.on .dpv .chips span:nth-child(2){transition-delay:.1s}
-.js .hl-card.on .dpv .chips span:nth-child(3){transition-delay:.2s}
-.js .hl-card.on .dpv .chips span:nth-child(4){transition-delay:.3s}
-.js .hl-card.on .dpv .chips span:nth-child(5){transition-delay:.4s}
-.js .hl-card.on .dpv .chips span:nth-child(6){transition-delay:.5s}
-
-/* ---------- reel ---------- */
-.reel-frame{margin:0;border:1px solid var(--line-2);background:#F1F4F3;line-height:0;box-shadow:0 20px 50px rgba(15,22,25,.10)}
-.reel-frame video{display:block;width:100%;height:auto;aspect-ratio:16/9}
-
-/* ---------- motion (only with .js, i.e. reduced motion not requested) ---------- */
-.hero{position:relative}
-.hero-glow{
-  position:absolute;left:-180px;top:-120px;width:min(820px,100vw);height:min(820px,100vw);border-radius:50%;pointer-events:none;z-index:-1;
-  background:radial-gradient(circle,rgba(16,103,90,.13) 0%,rgba(16,103,90,.05) 40%,rgba(16,103,90,0) 68%);
-}
-.js .hero-glow{animation:drift 16s ease-in-out infinite alternate}
-@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(70px,40px) scale(1.08)}}
-h1 .ln{display:block}
-.js h1 .ln{overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
-.js h1 .ln>span{display:block;transform:translateY(108%);animation:lnup .95s cubic-bezier(.2,.7,.2,1) forwards}
-.js h1 .ln:nth-child(2)>span{animation-delay:.13s}
-@keyframes lnup{to{transform:none}}
-.js .metric{opacity:0;transform:translateY(14px);animation:fadeup .7s cubic-bezier(.2,.7,.2,1) forwards}
-.js .metric:nth-child(1){animation-delay:.45s}
-.js .metric:nth-child(2){animation-delay:.57s}
-.js .metric:nth-child(3){animation-delay:.69s}
-.js .metric:nth-child(4){animation-delay:.81s}
+/* =========================================================
+   MOTION (only with .js, i.e. reduced motion not requested)
+   ========================================================= */
+.js .hero-glow{animation:drift 14s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(8%,10%) scale(1.12)}}
+.js h1 .wd{overflow:hidden;vertical-align:bottom;padding-bottom:.08em;margin-bottom:-.08em}
+.js h1 .wd>span{display:inline-block;transform:translateY(105%);animation:rise .9s var(--ease) forwards;animation-delay:calc(.08s * var(--i) + .1s)}
+@keyframes rise{to{transform:none}}
+.js h1 .u path{stroke-dasharray:320;stroke-dashoffset:320;animation:draw 1s var(--ease) 1.05s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.js .hero .eyebrow,.js .lede,.js .proof,.js .cta{opacity:0;transform:translateY(16px);animation:fadeup .8s var(--ease) forwards}
+.js .hero .eyebrow{animation-delay:.05s}.js .lede{animation-delay:.75s}.js .proof{animation-delay:.9s}.js .cta{animation-delay:1.02s}
 @keyframes fadeup{to{opacity:1;transform:none}}
-.js .rv{opacity:0;transform:translateY(20px);transition:opacity .75s cubic-bezier(.2,.7,.2,1),transform .75s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.js .proof .dot{animation:ping 2.2s ease-out 1.6s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--pass) 50%,transparent)}80%,100%{box-shadow:0 0 0 12px transparent}}
+.js .band-track{animation:marquee 38s linear infinite}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+.js .rv{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0s)}
 .js .rv.in{opacity:1;transform:none}
-.js .chart .bar-fill{transform:scaleX(0);transform-origin:left;transition:transform 1.1s cubic-bezier(.2,.7,.2,1),filter .15s}
-.js .chart.in .bar-fill{transform:none}
-.js .chart.in .bar-row:nth-child(2) .bar-fill{transition-delay:.12s}
-.js .chart.in .bar-row:nth-child(3) .bar-fill{transition-delay:.24s}
-.js .chart.in .bar-row:nth-child(4) .bar-fill{transition-delay:.36s}
-.js .chart.in .bar-row:nth-child(5) .bar-fill{transition-delay:.48s}
-.js .chart.in .bar-row:nth-child(6) .bar-fill{transition-delay:.6s}
+.js .sh h2 span{transform:translateY(105%);transition:transform .9s var(--ease)}
+.js .sh.in h2 span{transform:none}
+.js .contact h2 span{transform:translateY(105%);transition:transform 1s var(--ease)}
+.js .contact h2.in span{transform:none}
+
+/* numbers as graphics */
+.js .ring .arc{transition:stroke-dashoffset 1.4s var(--ease) .15s}
+.js .dots i{transform:scale(0);transition:transform .35s var(--ease);transition-delay:calc(.05s * var(--i) + .2s)}
+.js .num.in .dots i{transform:none}
+.js .fall i::after{transform:scaleY(1.667);transition:transform 1.2s var(--ease) .3s}
+.js .fall i:nth-child(2)::after{transform:scaleY(2.222)}
+.js .num.in .fall i::after{transform:none}
+
+/* work graphics */
+.js .av .b{transform:scaleY(0);transition:transform .9s var(--ease);transition-delay:calc(.12s * var(--i))}
+.js .av .v{opacity:0;transition:opacity .4s;transition-delay:calc(.12s * var(--i) + .6s)}
+.js .w.in .av .b{transform:none}
+.js .w.in .av .v{opacity:1}
+.js .dv .t{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease);transition-delay:calc(.09s * var(--i))}
+.js .w.in .dv .t{opacity:1;transform:none}
+.js .w.on .dv .t::before{animation:hot 7.2s infinite;animation-delay:calc(1.2s * var(--i) + 1s)}
+@keyframes hot{0%{opacity:0}4%,13%{opacity:1}18%,100%{opacity:0}}
+
+.js .w.on .gv .scan{animation:gscan 9s infinite}
+.js .w.on .gv .d1 i.hit::after{animation:ghit 9s infinite}
+.js .w.on .gv .pg{animation:gpg 9s infinite}
+.js .w.on .gv .ok{animation:gok 9s infinite}
+.js .w.on .gv .no{animation:gno 9s infinite}
+.js .gv .ok,.js .gv .no{opacity:0}
+@keyframes gscan{0%{opacity:0;transform:translateY(0)}3%{opacity:1}22%{opacity:1;transform:translateY(60px)}27%{opacity:0;transform:translateY(60px)}54%{opacity:0;transform:translateY(0)}57%{opacity:1}78%{opacity:1;transform:translateY(160px)}82%,100%{opacity:0;transform:translateY(160px)}}
+@keyframes ghit{0%,20%{opacity:0}24%,48%{opacity:.35}52%,100%{opacity:0}}
+@keyframes gpg{0%,24%{opacity:0;transform:translate(0,0) scale(.6)}28%{opacity:1;transform:translate(0,0) scale(1)}36%{opacity:1;transform:translate(var(--fly,120px),-14px) scale(1)}40%,100%{opacity:0;transform:translate(var(--fly,120px),-14px) scale(1)}}
+@keyframes gok{0%,34%{opacity:0;transform:translateY(10px)}38%,48%{opacity:1;transform:none}52%,100%{opacity:0;transform:translateY(-8px)}}
+@keyframes gno{0%,80%{opacity:0;transform:translateY(10px)}84%,96%{opacity:1;transform:none}100%{opacity:0}}
+
+.js .tl .line{transform:scaleY(0);transition:transform 1.6s var(--ease)}
+.js .tl.in .line{transform:none}
 
 @media (prefers-reduced-motion:reduce){
-  *{transition:none!important;animation:none!important}
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
 }
 </style>
 
+<div class="progress" aria-hidden="true"></div>
+
 <header class="top">
   <div class="wrap">
-    <span class="wordmark">Syed Muhammad Hamzah Rizvi</span>
+    <a class="wordmark" href="#"><i aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 17.5l5 5 11-12"/></svg></i>Syed Muhammad Hamzah Rizvi</a>
     <nav class="topnav">
-      <a href="#highlights">Highlights</a>
+      <a href="#numbers">Numbers</a>
+      <a href="#work">Work</a>
       <a href="#reel">Reel</a>
-      <a href="#evidence">Evidence</a>
-      <a href="#deployments">Deployments</a>
       <a href="#track">Track</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
 </header>
 
-<div class="wrap hero">
+<div class="hero">
   <div class="hero-glow" aria-hidden="true"></div>
-  <div class="eyebrow">Applied AI &middot; Deployment &amp; Integration &middot; Manchester, UK</div>
-  <h1><span class="ln"><span>I ship AI that has to be</span></span> <span class="ln"><span>right in production.</span></span></h1>
-  <p class="standfirst rv" style="--d:.2s">
-    Three years taking AI and biometric systems from a customer's ambiguous requirements
-    into live production across 10+ countries &mdash; and building the tooling that proves
-    they still work once they're there.
-  </p>
-  <p class="thesis rv" style="--d:.32s">
-    Every figure on this page names its source. Where a number is confounded or
-    can't be isolated, it says so. That habit is the job: my RAG assistant refuses
-    answers it can't ground in a document, and the biometric systems I deploy decide
-    whether a face clears an age threshold. Unverifiable claims are the failure mode
-    in both.
-  </p>
-
-  <div class="metrics">
-    <div class="metric">
-      <span class="fig" data-count="300" data-suffix="+">300+</span>
-      <span class="what">customer accounts served weekly by an assistant I built and shipped</span>
-      <span class="src"><span class="tag v">Verified</span> Live traffic, GroundedOps admin console</span>
-    </div>
-    <div class="metric">
-      <span class="fig">40% / 55%</span>
-      <span class="what">fall in first-line ticket volume and resolution time after release</span>
-      <span class="src"><span class="tag c">Confounded</span> Jira, since release &mdash; ran alongside other initiatives, so not isolated to this tool</span>
-    </div>
-    <div class="metric">
-      <span class="fig" data-count="92.6" data-dec="1" data-suffix="%">92.6%</span>
-      <span class="what">near-group age accuracy, hierarchical EfficientNetB0 on 274k faces</span>
-      <span class="src"><span class="tag v">Verified</span> <a href="https://github.com/hamzahrizvi/age-estimation-CNN" target="_blank" rel="noopener">Soft-Ordinal-7Class branch &#8599;</a></span>
-    </div>
-    <div class="metric">
-      <span class="fig" data-count="15">15</span>
-      <span class="what">concurrent enterprise deployments owned end to end, across 10+ countries</span>
-      <span class="src"><span class="tag v">Verified</span> Innovative Technology, Mar 2023 &ndash; present</span>
+  <div class="wrap">
+    <p class="eyebrow">Applied AI &middot; Deployment &amp; Integration &middot; Manchester, UK</p>
+    <h1 id="headline">I ship AI that has to be <span class="g">right in</span> <span class="u">production.<svg viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 11 C 70 3, 160 3, 297 9"/></svg></span></h1>
+    <p class="lede">Three years taking AI and biometric systems into live production across 10+ countries.</p>
+    <p class="proof"><span class="dot" aria-hidden="true"></span>Every number on this page names its source.</p>
+    <div class="cta">
+      <a class="btn primary" href="mailto:hamzahrizvi2@gmail.com">Email me &rarr;</a>
+      <a class="btn" href="#work">See the work &darr;</a>
     </div>
   </div>
+  <div class="band" aria-hidden="true"><div class="band-track"><span>Retrieval that cites its source</span><span>Eval harnesses</span><span>Biometric deployments</span><span>REST APIs &amp; webhooks</span><span>Python &middot; FastAPI</span><span>10+ countries</span><span>Retrieval that cites its source</span><span>Eval harnesses</span><span>Biometric deployments</span><span>REST APIs &amp; webhooks</span><span>Python &middot; FastAPI</span><span>10+ countries</span></div></div>
 </div>
 
-<section id="highlights" style="padding-bottom:30px">
+<section id="numbers">
   <div class="wrap">
-    <div class="shead">
-      <h2>Highlights</h2>
-      <span class="note">Three things I've built or shipped &mdash; each card links to the evidence below</span>
+    <div class="sh"><span class="n">01</span><h2><span>The numbers</span></h2><span class="note">each one tagged with where it came from</span></div>
+    <div class="nums">
+      <div class="num rv">
+        <div class="viz"><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><circle class="trk" cx="50" cy="50" r="44"/><circle class="arc" cx="50" cy="50" r="44" data-p="1"/></svg></div>
+        <b class="big" data-count="300" data-suffix="+">300+</b>
+        <span class="lbl">customer accounts a week, served by an assistant I built</span>
+        <span class="src"><i class="tag v">Verified</i>live traffic, admin console</span>
+      </div>
+      <div class="num rv" style="--d:.1s">
+        <div class="viz"><div class="dots" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i><i style="--i:13"></i><i style="--i:14"></i></div></div>
+        <b class="big" data-count="15">15</b>
+        <span class="lbl">concurrent enterprise deployments, 10+ countries</span>
+        <span class="src"><i class="tag v">Verified</i>Innovative Technology, 2023&ndash;now</span>
+      </div>
+      <div class="num rv" style="--d:.2s">
+        <div class="viz"><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><circle class="trk" cx="50" cy="50" r="44"/><circle class="arc" cx="50" cy="50" r="44" data-p=".926"/></svg></div>
+        <b class="big" data-count="92.6" data-dec="1" data-suffix="%">92.6%</b>
+        <span class="lbl">near-group age accuracy on 274k faces</span>
+        <span class="src"><i class="tag v">Verified</i><a href="https://github.com/hamzahrizvi/age-estimation-CNN" target="_blank" rel="noopener">repo &#8599;</a></span>
+      </div>
+      <div class="num rv" style="--d:.3s">
+        <div class="viz fall" aria-hidden="true"><i style="--h:60%"></i><i style="--h:45%"></i></div>
+        <b class="big sm">40% / 55%</b>
+        <span class="lbl">fall in first-line tickets / resolution time</span>
+        <span class="src"><i class="tag c">Confounded</i>ran alongside other initiatives</span>
+      </div>
     </div>
-    <div class="hl">
-      <a class="hl-card rv" href="#groundedops" aria-label="GroundedOps: cites the page, or refuses to guess. Read the evidence.">
-        <div class="hl-vis" aria-hidden="true">
-          <div class="mw">
-            <div class="mw-h"><i>A</i>Assistant</div>
-            <div class="mw-s">Asking about<b>NV9 Spectral</b></div>
-            <div class="mw-b">
-              <div class="mm u u1">My bezel is flashing one long flash then one short flash - what's wrong?</div>
-              <div class="mm a a1">&hellip;one long flash followed by one short flash means the note path is open.
-                <span class="sc">NV9 Spectral Range User Manual v1 <span>pp. 19, 60&ndash;62</span></span></div>
-              <div class="mm u u2">What's the lead time on a 500-unit order?</div>
-              <div class="mm a a2">That is not something I have in my knowledge base, so I would rather point you at someone than guess.</div>
+  </div>
+</section>
+
+<section id="work" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sh"><span class="n">02</span><h2><span>The work</span></h2></div>
+
+    <article class="w rv" id="groundedops">
+      <div class="w-txt">
+        <p class="k">GroundedOps &middot; in production</p>
+        <h3>An assistant that refuses to guess.</h3>
+        <p>It answers from the manuals and cites the page, or hands over to a person.</p>
+        <ul class="chips">
+          <li><b>300+</b>accounts / week</li>
+          <li><b>140+</b>regression tests</li>
+          <li><b>34</b>eval cases</li>
+          <li><b>3 wrong &rarr; 8/8</b>after an inverted-gate fix</li>
+        </ul>
+        <details class="more">
+          <summary>Read the evidence</summary>
+          <div class="more-body">
+            <p class="stack">Python &middot; FastAPI &middot; React &middot; ChromaDB &middot; Ollama &middot; Docker &middot; DeepSeek / OpenAI / Claude</p>
+            <p>A support assistant over hardware manuals and internal specs, answering for 300+ customer accounts a week through an
+               embeddable widget. Hybrid BM25 and dense retrieval merged with reciprocal rank fusion, a sigmoid-calibrated cross-encoder
+               reranker, then an NLI entailment check on every sentence before it reaches the screen.</p>
+            <p>The bug I nearly shipped: the hallucination gate was passing invented claims at 0.99 confidence and refusing
+               verbatim-correct ones at 0.02 &mdash; the verifier was reading the classifier's <em>neutral</em> class instead of
+               <em>entailment</em>. Every surface metric looked healthy.</p>
+            <p class="pull">Correcting the class index and premise granularity took a true/false claim battery from three wrong verdicts
+               to 8 out of 8.</p>
+            <p>I also A/B-tested two competing fixes for a retrieval fault on parallel isolated instances, and kept the narrower one that
+               regressed nothing.</p>
+            <div class="figpair">
+              <figure>
+                <span class="shot"><img src="img/answer-sources.png" alt="The assistant answering a hardware fault question, with a SOURCES panel citing the NV9 Spectral Range User Manual v1, pages 19, 60, 61 and 62." loading="lazy"></span>
+                <figcaption><b>Grounded.</b> Every answer carries the document and page numbers it came from.</figcaption>
+              </figure>
+              <figure>
+                <span class="shot"><img src="img/answer-refusal.png" alt="The assistant declining to answer, saying the information is not in its knowledge base and offering to hand the user to the support team." loading="lazy"></span>
+                <figcaption><b>Refused.</b> When it can't support an answer, it hands the user to a human.</figcaption>
+              </figure>
+            </div>
+            <div class="demo">
+              <button class="demo-frame" id="demoBtn" type="button" aria-label="Play the embedded widget demo">
+                <img id="demoImg" src="img/widget-poster.png" alt="The GroundedOps support widget embedded on a product page, collapsed to its launcher button." loading="lazy">
+                <span class="play"><span>Play demo</span></span>
+              </button>
+              <figcaption><b>The embeddable widget, running.</b> Single-file, dependency-free JavaScript, CORS-scoped to allowed origins.</figcaption>
+            </div>
+            <div class="rows">
+              <div class="row"><span>Regression tests, each tied to a named bug</span><span class="v good">140+</span></div>
+              <div class="row"><span>Eval harness cases gating every change</span><span class="v good">34</span></div>
+              <div class="row"><span>Reference corpus</span><span class="v">~200 pp</span></div>
+            </div>
+            <a class="src-link" href="https://github.com/hamzahrizvi/groundedops" target="_blank" rel="noopener">github.com/hamzahrizvi/groundedops &#8599;</a>
+          </div>
+        </details>
+      </div>
+      <div class="w-vis gv" aria-hidden="true">
+        <div class="doc d3"></div>
+        <div class="doc d2"></div>
+        <div class="doc d1"><i></i><i></i><i></i><i class="hit"></i><i></i><i></i><i></i><i></i><span class="scan"></span></div>
+        <span class="pg">p. 19</span>
+        <div class="ans ok"><b>Grounded answer</b><em>cites manual, page 19</em></div>
+        <div class="ans no"><b>Not in the docs</b><em>handed to a person</em></div>
+        <div class="q"><span>retrieve &rarr; rerank &rarr; entailment check</span><span>answer or decline</span></div>
+      </div>
+    </article>
+
+    <article class="w flip rv" id="age">
+      <div class="w-txt">
+        <p class="k">Facial age estimation &middot; research</p>
+        <h3>Six experiments. Two failures kept.</h3>
+        <p>The fix wasn't more balancing. Age is ordinal, and the loss didn't know it.</p>
+        <ul class="chips">
+          <li><b>48.65 &rarr; 57.86%</b>fine-age accuracy</li>
+          <li><b>92.6%</b>near-group</li>
+          <li><b>274k</b>faces</li>
+        </ul>
+        <details class="more">
+          <summary>Read the evidence</summary>
+          <div class="more-body">
+            <p class="stack">TensorFlow / Keras &middot; EfficientNetB0 &middot; VGG16 &middot; WIKI / IMDB / UTKFace / FG-NET</p>
+            <p>A hierarchical multi-task model predicting gender, coarse age band, fine age band and continuous age from a face.
+               The dataset is brutally imbalanced &mdash; 101,294 faces in the 34&ndash;48 band against 153 in the 3&ndash;5 band.
+               Downsampling cost more in representation than it bought in balance; weighting the minority classes was worse still.</p>
+            <p class="pull">The problem wasn't imbalance: I'd encoded an ordinal variable as categorical. Soft ordinal labels took
+               fine-age accuracy from 48.65% to 57.86%.</p>
+            <figure class="chart">
+              <p class="chart-head">Fine-age exact accuracy, by experiment</p>
+              <div class="bars2">
+                <div class="flat"><div class="bar-top"><span>01 &middot; VGG16 baseline, 18 combined classes</span><span class="val">~39%</span></div><div class="bar-track"><span class="bar-fill" style="width:65.0%"></span></div></div>
+                <div class="up"><div class="bar-top"><span>02 &middot; Hierarchical EfficientNetB0, 3 task heads</span><span class="val">48.65%</span></div><div class="bar-track"><span class="bar-fill" style="width:81.1%"></span></div></div>
+                <div class="down"><div class="bar-top"><span>03 &middot; Balanced downsampling to 7 classes</span><span class="val">39.13%</span></div><div class="bar-track"><span class="bar-fill" style="width:65.2%"></span></div></div>
+                <div class="down"><div class="bar-top"><span>04 &middot; Minority class weighting</span><span class="val">28.3%</span></div><div class="bar-track"><span class="bar-fill" style="width:47.2%"></span></div></div>
+                <div class="up"><div class="bar-top"><span>05 &middot; Soft ordinal labels, 7 classes</span><span class="val">57.86%</span></div><div class="bar-track"><span class="bar-fill" style="width:96.4%"></span></div></div>
+                <div class="flat"><div class="bar-top"><span>06 &middot; Age regression head, class derived from age</span><span class="val">42.71%</span></div><div class="bar-track"><span class="bar-fill" style="width:71.2%"></span></div></div>
+              </div>
+              <p class="chart-foot">Run 06 optimises continuous age, not class membership &mdash; its headline result is an 8.52-year MAE.
+                 Run 01 used a different class scheme, so it marks a starting point, not a like-for-like comparison. Best run also reached
+                 88.38% coarse-age, 92.58% near-group (&plusmn;1) and 87.46% gender.</p>
+            </figure>
+            <a class="src-link" href="https://github.com/hamzahrizvi/age-estimation-CNN" target="_blank" rel="noopener">github.com/hamzahrizvi/age-estimation-CNN &#8599;</a>
+          </div>
+        </details>
+      </div>
+      <div class="w-vis av" aria-hidden="true">
+        <div class="hd"><span>Fine-age accuracy, run by run</span><b>best 57.86%</b></div>
+        <div class="bars">
+          <div class="col"><span class="v">~39</span><div class="b fl" style="height:67%;--i:0"></div><span class="n">01</span></div>
+          <div class="col"><span class="v">48.65</span><div class="b up" style="height:84%;--i:1"></div><span class="n">02</span></div>
+          <div class="col"><span class="v">39.13</span><div class="b dn" style="height:68%;--i:2"></div><span class="n">03</span></div>
+          <div class="col"><span class="v">28.3</span><div class="b dn" style="height:49%;--i:3"></div><span class="n">04</span></div>
+          <div class="col best"><span class="v">57.86</span><div class="b up" style="height:100%;--i:4"></div><span class="n">05</span></div>
+          <div class="col"><span class="v">42.71</span><div class="b fl" style="height:74%;--i:5"></div><span class="n">06</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="w rv" id="deployments">
+      <div class="w-txt">
+        <p class="k">Biometric deployments &middot; 2023&ndash;now</p>
+        <h3>Fifteen live rollouts, owned end to end.</h3>
+        <p>Age estimation, face payment and access control, wired into machines, kiosks and warehouses that already existed.</p>
+        <ul class="chips">
+          <li><b>15</b>concurrent</li>
+          <li><b>10+</b>countries</li>
+          <li><b>30+</b>integration guides</li>
+        </ul>
+        <details class="more">
+          <summary>Read the evidence</summary>
+          <div class="more-body">
+            <div class="deplist">
+              <div><h4>Gaming</h4><p>Facial age estimation and recognition integrated into gambling-machine infrastructure via REST APIs. Hundreds of venues, thousands of machines nationwide.</p></div>
+              <div><h4>Vending &amp; cloud</h4><p>Machine-side software connected to cloud customer accounts across vending providers. Up to 25% sales increase among customers otherwise unable to purchase.</p></div>
+              <div><h4>Retail</h4><p>Systems integration for kiosks selling age-restricted products. Up to 50 hours a month saved in attendant interaction time.</p></div>
+              <div><h4>Warehouse &amp; logistics</h4><p>Employee clocking and selective-access control on one biometric identity, over API-based device communication.</p></div>
+              <div><h4>Online age assurance</h4><p>Introducing an age-verification model for digital platforms through API integration. Ongoing; metrics not yet established.</p></div>
+              <div><h4>Enablement</h4><p>30+ internal guides, specs and mapping documents; 10+ training sessions to groups of 30+.</p></div>
             </div>
           </div>
-        </div>
-        <div class="hl-cap">
-          <span class="k">GroundedOps &middot; in production</span>
-          <h3>Cites the page, or refuses to guess</h3>
-          <p>Answers for 300+ customer accounts a week from ~200 pages of manuals. 140+ regression tests and a 34-case eval harness gate every change.</p>
-          <span class="go">Read the evidence &darr;</span>
-        </div>
-      </a>
+        </details>
+      </div>
+      <div class="w-vis dv" aria-hidden="true">
+        <div class="t" style="--i:0"><span class="s">Gaming</span><span class="st">1000s</span><span class="d">of machines nationwide</span></div>
+        <div class="t" style="--i:1"><span class="s">Vending</span><span class="st">&le;25%</span><span class="d">more sales, no ID needed</span></div>
+        <div class="t" style="--i:2"><span class="s">Retail</span><span class="st">50 hrs</span><span class="d">a month saved at kiosks</span></div>
+        <div class="t" style="--i:3"><span class="s">Warehouse</span><span class="st">1 ID</span><span class="d">for access and clocking</span></div>
+        <div class="t" style="--i:4"><span class="s">Online</span><span class="st">API</span><span class="d">age assurance, ongoing</span></div>
+        <div class="t" style="--i:5"><span class="s">Enablement</span><span class="st">30+</span><span class="d">guides the teams work from</span></div>
+      </div>
+    </article>
 
-      <a class="hl-card rv" style="--d:.1s" href="#age" aria-label="Facial age estimation: six experiments, two failures kept. See the experiment log.">
-        <div class="hl-vis" aria-hidden="true">
-          <div class="xb-top"><span>Fine-age accuracy, 6 runs</span><b>best 57.86%</b></div>
-          <div class="xb">
-            <div class="col"><div class="b fl" style="height:67%"></div><span class="n">01</span></div>
-            <div class="col"><div class="b up" style="height:84%"></div><span class="n">02</span></div>
-            <div class="col"><div class="b dn" style="height:68%"></div><span class="n">03</span></div>
-            <div class="col"><div class="b dn" style="height:49%"></div><span class="n">04</span></div>
-            <div class="col"><div class="b up" style="height:100%"></div><span class="n">05</span></div>
-            <div class="col"><div class="b fl" style="height:74%"></div><span class="n">06</span></div>
-          </div>
-        </div>
-        <div class="hl-cap">
-          <span class="k">Facial age estimation &middot; research</span>
-          <h3>Six experiments, two failures kept</h3>
-          <p>Soft ordinal labels took fine-age accuracy from 48.65% to 57.86%, and the best run reached 92.6% near-group accuracy on 274k faces.</p>
-          <span class="go">See the experiment log &darr;</span>
-        </div>
-      </a>
-
-      <a class="hl-card rv" style="--d:.2s" href="#deployments" aria-label="Biometric deployments: 15 concurrent rollouts across 10+ countries. See the deployments.">
-        <div class="hl-vis" aria-hidden="true">
-          <div class="dpv">
-            <div class="big">15<small>concurrent &middot; 10+ countries</small></div>
-            <div class="chips"><span>Gaming</span><span>Vending</span><span>Retail kiosks</span><span>Warehouse access</span><span>Online age assurance</span><span>Enablement</span></div>
-          </div>
-        </div>
-        <div class="hl-cap">
-          <span class="k">Biometric deployments &middot; 2023&ndash;now</span>
-          <h3>Fifteen live rollouts, owned end to end</h3>
-          <p>Age estimation, face payment and access control wired into machines, kiosks and warehouses that already existed, over REST APIs.</p>
-          <span class="go">See the deployments &darr;</span>
-        </div>
-      </a>
+    <div class="also rv"><span>Also on GitHub</span>
+      <a href="https://github.com/hamzahrizvi/manufacturing-dashboard" target="_blank" rel="noopener">manufacturing-dashboard &#8599;</a>
+      <a href="https://github.com/hamzahrizvi/Android-Kiosk-App-with-Face-Recognition" target="_blank" rel="noopener">android-kiosk-face-recognition &#8599;</a>
     </div>
   </div>
 </section>
 
-<section id="reel" style="padding-top:30px">
+<section id="reel" style="padding-top:20px">
   <div class="wrap">
-    <div class="shead">
-      <h2>This page, in 25 seconds</h2>
-      <span class="note">Sound on if you like &mdash; it's quiet</span>
-    </div>
+    <div class="sh"><span class="n">03</span><h2><span>23 seconds</span></h2><span class="note">sound on if you like &mdash; it's quiet</span></div>
     <figure class="reel-frame rv">
-      <video id="reelVid" src="img/reel.mp4?v=2" poster="img/reel.jpg?v=2" controls muted playsinline loop preload="metadata" width="1280" height="720"
-        aria-label="25-second tour of this page: a camera and cursor move through the headline, the sourced figures (zooming in on the one marked Confounded), the GroundedOps highlight card answering with a cited manual page and then declining, the experiment chart and the deployment grid."></video>
+      <video id="reelVid" src="img/reel.mp4?v=3" poster="img/reel.jpg?v=3" controls muted playsinline loop preload="metadata" width="1280" height="720"
+        aria-label="23-second reel: the GroundedOps assistant answering with a cited manual page, declining a question it cannot ground, then the four headline figures from this page with their source tags."></video>
     </figure>
-    <figcaption style="margin-top:12px">
-      <b>How this was made.</b> This page's own markup, filmed by a scripted camera and cursor. The mini assistant is the
-      highlight card above, rebuilt in HTML from the live assistant's screens; its second question is a staged example the
-      manuals can't answer. Every figure is the one on this page, with its tag.
-    </figcaption>
+    <figcaption class="reel-cap"><b>How this was made.</b> The widget scenes are rebuilt in HTML from the live assistant's screens; the second
+      question is a staged example the manuals can't answer. Every figure is the one on this page, with its tag.</figcaption>
   </div>
 </section>
 
-<hr class="rule">
-
-<section id="evidence">
+<section id="track" style="padding-top:20px">
   <div class="wrap">
-    <div class="shead">
-      <h2>Evidence</h2>
-      <span class="note">Two systems, both public &mdash; read the code, check the numbers</span>
-    </div>
-
-    <article class="entry rv" id="groundedops">
-      <div>
-        <h3>GroundedOps &mdash; retrieval assistant that refuses to guess</h3>
-        <p class="stack">Python &middot; FastAPI &middot; React &middot; ChromaDB &middot; Ollama &middot; Docker &middot; DeepSeek / OpenAI / Claude</p>
-        <p>
-          A support assistant over hardware manuals and internal specs, now answering for
-          300+ customer accounts a week through an embeddable widget. Hybrid BM25 and dense
-          retrieval merged with reciprocal rank fusion, a sigmoid-calibrated cross-encoder
-          reranker, then an NLI entailment check on every sentence before it reaches the
-          screen. When it can't ground an answer, it says so rather than inventing one.
-        </p>
-        <p>
-          The part worth reading is a bug I nearly shipped. The hallucination gate was
-          passing invented claims at 0.99 confidence and refusing verbatim-correct ones at
-          0.02 &mdash; the verifier was reading the classifier's <em>neutral</em> class
-          instead of <em>entailment</em>. The gate was inverted and every surface metric
-          looked healthy.
-        </p>
-        <p class="pull">
-          Correcting the class index and premise granularity took a true/false claim battery
-          from three wrong verdicts to 8 out of 8. Nothing upstream would have caught it,
-          because a confidently wrong answer and a confidently right one look identical
-          until you check what the number actually refers to.
-        </p>
-        <p>
-          I also A/B-tested two competing fixes for a retrieval fault on parallel isolated
-          instances, and rejected the intuitive one on measured evidence in favour of a
-          narrower fix that regressed nothing.
-        </p>
-
-        <div class="figpair rv">
-          <figure>
-            <span class="shot"><img src="img/answer-sources.png" alt="The assistant answering a hardware fault question, with a SOURCES panel expanded beneath the answer citing the NV9 Spectral Range User Manual v1, pages 19, 60, 61 and 62." loading="lazy"></span>
-            <figcaption><b>Grounded.</b> Every answer carries the document and the page numbers it came from, so the reader can check it rather than trust it.</figcaption>
-          </figure>
-          <figure>
-            <span class="shot"><img src="img/answer-refusal.png" alt="The assistant declining to answer, saying the information is not in its knowledge base and offering to hand the user to the support team." loading="lazy"></span>
-            <figcaption><b>Refused.</b> When retrieval and the entailment check can't support an answer, it hands the user to a human instead of generating a plausible one.</figcaption>
-          </figure>
-        </div>
-
-        <div class="demo">
-          <button class="demo-frame" id="demoBtn" type="button" aria-label="Play the embedded widget demo">
-            <img id="demoImg" src="img/widget-poster.png" alt="The GroundedOps support widget embedded on a product page, collapsed to its launcher button." loading="lazy">
-            <span class="play"><span>Play demo</span></span>
-          </button>
-          <figcaption><b>The embeddable widget, running.</b> Single-file, dependency-free JavaScript that drops into a third-party site and is CORS-scoped to allowed origins.</figcaption>
-        </div>
-      </div>
-      <aside class="aside">
-        <h4>Shipped with</h4>
-        <div class="rows">
-          <div class="row"><span class="k">Regression tests, each tied to a named bug</span><span class="v good">140+</span></div>
-          <div class="row"><span class="k">Eval harness cases gating every change</span><span class="v good">34</span></div>
-          <div class="row"><span class="k">Weekly customer accounts served</span><span class="v good">300+</span></div>
-          <div class="row"><span class="k">Reference corpus</span><span class="v">~200 pp</span></div>
-          <div class="row"><span class="k">Claim battery, before &rarr; after fix</span><span class="v">3 wrong &rarr; 8/8</span></div>
-        </div>
-        <p class="foot">
-          Source &middot; <a href="https://github.com/hamzahrizvi/groundedops" target="_blank" rel="noopener">github.com/hamzahrizvi/groundedops &#8599;</a>
-        </p>
-      </aside>
-    </article>
-
-    <article class="entry rv" id="age">
-      <div>
-        <h3>Facial age estimation &mdash; six experiments, two of them failures</h3>
-        <p class="stack">TensorFlow / Keras &middot; EfficientNetB0 &middot; VGG16 &middot; 274k images &middot; WIKI / IMDB / UTKFace / FG-NET</p>
-        <p>
-          A hierarchical multi-task model predicting gender, coarse age band, fine age band
-          and continuous age from a face. Trained on WIKI and IMDB, fine-tuned on UTKFace,
-          stress-tested cross-dataset on FG-NET. Every experiment lives on its own branch
-          with its own results table.
-        </p>
-        <p>
-          The dataset is brutally imbalanced &mdash; 101,294 faces in the 34&ndash;48 band
-          against 153 in the 3&ndash;5 band. I tried the two obvious fixes and both made
-          things worse. Downsampling the majority classes cost more in representation
-          quality than it bought in balance. Weighting the minority classes was worse still:
-          it amplified sparse, noisy samples and damaged the shared features the other heads
-          depended on.
-        </p>
-        <p class="pull">
-          Both attempts were treating a symptom. The problem wasn't imbalance, it was that
-          I'd encoded an ordinal variable as categorical &mdash; adjacent age bands are
-          related, and the loss function didn't know that. Soft ordinal labels took fine-age
-          accuracy from 48.65% to 57.86%.
-        </p>
-
-        <figure class="chart rv">
-          <p class="chart-head">Fine-age exact accuracy, by experiment</p>
-          <p class="chart-sub">Six branches, in the order they were run &middot; hover any bar for what it established</p>
-          <div class="chart-legend">
-            <span><i class="lu"></i>Improved on previous best</span>
-            <span><i class="ld"></i>Regressed</span>
-            <span><i class="lf"></i>Baseline or different objective</span>
-          </div>
-          <div class="bars">
-          <div class="bar-row flat" title="Starting point: age and gender encoded as one 18-class label">
-            <div class="bar-top"><span><span class="n">01</span>VGG16 baseline, 18 combined classes</span><span class="val">39%</span></div>
-            <div class="bar-track"><span class="bar-fill" style="width:65.0%"></span></div>
-          </div>
-          <div class="bar-row up" title="Splitting into shared-backbone task heads, +9.65 points">
-            <div class="bar-top"><span><span class="n">02</span>Hierarchical EfficientNetB0, 3 task heads<span class="flag u">Best so far</span></span><span class="val">48.65%</span></div>
-            <div class="bar-track"><span class="bar-fill" style="width:81.1%"></span></div>
-          </div>
-          <div class="bar-row down" title="Capping majority classes cost more in representation than it bought in balance">
-            <div class="bar-top"><span><span class="n">03</span>Balanced downsampling to 7 classes<span class="flag d">Regressed</span></span><span class="val">39.13%</span></div>
-            <div class="bar-track"><span class="bar-fill" style="width:65.2%"></span></div>
-          </div>
-          <div class="bar-row down" title="Weighting amplified sparse noisy samples and damaged the shared features">
-            <div class="bar-top"><span><span class="n">04</span>Minority class weighting<span class="flag d">Regressed</span></span><span class="val">28.3%</span></div>
-            <div class="bar-track"><span class="bar-fill" style="width:47.2%"></span></div>
-          </div>
-          <div class="bar-row up" title="Treating age as ordinal rather than categorical, +9.21 points on the previous best">
-            <div class="bar-top"><span><span class="n">05</span>Soft ordinal labels, 7 classes<span class="flag u">Best</span></span><span class="val">57.86%</span></div>
-            <div class="bar-track"><span class="bar-fill" style="width:96.4%"></span></div>
-          </div>
-          <div class="bar-row flat" title="Optimised for continuous-age MAE rather than class accuracy">
-            <div class="bar-top"><span><span class="n">06</span>Age regression head, class derived from age</span><span class="val">42.71%</span></div>
-            <div class="bar-track"><span class="bar-fill" style="width:71.2%"></span></div>
-          </div>
-          </div>
-          <div class="chart-axis"><span>0%</span><span>20%</span><span>40%</span><span>60%</span></div>
-          <p class="chart-foot">
-            Run 06 optimises continuous age, not class membership &mdash; its headline result is an
-            <b>8.52-year MAE</b>, which is a different measure and deliberately not plotted on this axis.
-            Run 01's figure is approximate and used a different class scheme, so it indicates a
-            starting point rather than a like-for-like comparison.
-          </p>
-        </figure>
-
-        <p>
-          I've kept the failed branches rather than deleting them. The negative results are
-          what located the actual fault.
-        </p>
-      </div>
-      <aside class="aside">
-        <h4>Experiment log</h4>
-        <div class="rows">
-          <div class="row"><span class="k">1 &middot; VGG16, 18 combined classes</span><span class="v bad">~39%</span></div>
-          <div class="row"><span class="k">2 &middot; EfficientNetB0, 3 task heads</span><span class="v">48.65%</span></div>
-          <div class="row"><span class="k">3 &middot; Balanced downsampling</span><span class="v bad">39.13%</span></div>
-          <div class="row"><span class="k">4 &middot; Class weighting</span><span class="v bad">28.30%</span></div>
-          <div class="row"><span class="k">5 &middot; Soft ordinal labels</span><span class="v good">57.86%</span></div>
-          <div class="row"><span class="k">6 &middot; Age regression head, MAE</span><span class="v good">8.52 yr</span></div>
-        </div>
-        <p class="foot">
-          Fine-age exact accuracy. Best run also reached 88.38% coarse-age, 92.58%
-          near-group (&plusmn;1), 87.46% gender.<br>
-          Source &middot; <a href="https://github.com/hamzahrizvi/age-estimation-CNN" target="_blank" rel="noopener">github.com/hamzahrizvi/age-estimation-CNN &#8599;</a>
-        </p>
-      </aside>
-    </article>
-
-    <div class="also rv">
-      <div class="also-card">
-        <span class="thumb"><img src="img/dashboard.png" alt="Manufacturing analytics dashboard showing production monitoring charts." loading="lazy"></span>
-        <div class="cap">
-          <h3>Manufacturing analytics dashboard</h3>
-          <p>Production monitoring and process analytics over plant data &mdash; the industrial
-             half of the background, kept current.</p>
-          <a class="lk" href="https://github.com/hamzahrizvi/manufacturing-dashboard" target="_blank" rel="noopener" style="text-decoration:none">github.com/hamzahrizvi/manufacturing-dashboard &#8599;</a>
-        </div>
-      </div>
-      <div class="also-card">
-        <div class="cap">
-          <h3>Android kiosk, face recognition</h3>
-          <p>Capacitor kiosk app for visitor check-in and check-out, enrolling faces against an
-             on-premise Hub API, with Device Owner lockdown and Microsoft Teams notification.</p>
-          <p><a class="lk" href="https://github.com/hamzahrizvi/Android-Kiosk-App-with-Face-Recognition" target="_blank" rel="noopener" style="text-decoration:none">github.com/hamzahrizvi/Android-Kiosk-App-with-Face-Recognition &#8599;</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="rule">
-
-<section id="deployments">
-  <div class="wrap">
-    <div class="shead">
-      <h2>Deployments</h2>
-      <span class="note">Biometric and identity systems, integrated into infrastructure that already existed</span>
-    </div>
-    <div class="deploys">
-      <div class="dep rv" style="--d:0.00s">
-        <span class="sector">Gaming</span>
-        <h3>Age estimation on gambling machines</h3>
-        <p>Integrated facial age estimation and recognition into existing gambling-machine
-           infrastructure for industry-leading operators, via REST APIs and machine-side
-           authentication workflows.</p>
-        <p class="out">Hundreds of venues, thousands of machines nationwide &middot; real-time checks supporting underage-gambling prevention</p>
-      </div>
-      <div class="dep rv" style="--d:0.08s">
-        <span class="sector">Vending &amp; cloud</span>
-        <h3>Face-based payment and account linking</h3>
-        <p>Connected machine-side software to cloud customer accounts across multiple
-           vending providers, enabling age verification and face-based payment.</p>
-        <p class="out">Up to 25% sales increase among customers otherwise unable to purchase &mdash; forgotten ID or wallet</p>
-      </div>
-      <div class="dep rv" style="--d:0.16s">
-        <span class="sector">Retail</span>
-        <h3>Self-service kiosk automation</h3>
-        <p>Led systems integration for retail kiosks automating the purchase journey for
-           age-restricted products, cutting dependency on manual attendant checks.</p>
-        <p class="out">Up to 50 hours per month saved in customer-to-attendant interaction time</p>
-      </div>
-      <div class="dep rv" style="--d:0.00s">
-        <span class="sector">Warehouse &amp; logistics</span>
-        <h3>Facial recognition access control</h3>
-        <p>Rolled out employee clocking and selective-access control across warehouse sites,
-           integrating with existing operational infrastructure over API-based device
-           communication.</p>
-        <p class="out">Access management and time capture on one biometric identity</p>
-      </div>
-      <div class="dep rv" style="--d:0.08s">
-        <span class="sector">Online age assurance</span>
-        <h3>Age verification for digital platforms</h3>
-        <p>Working with online age-restriction providers to introduce an age-verification
-           model for digital platforms through API integration.</p>
-        <p class="out">Ongoing &middot; metrics not yet established</p>
-      </div>
-      <div class="dep rv" style="--d:0.16s">
-        <span class="sector">Internal</span>
-        <h3>Enablement and documentation</h3>
-        <p>Authored the integration guides, technical specifications and mapping documents
-           the support and engineering teams work from, and trained colleagues on both the
-           products and the AI tooling I built.</p>
-        <p class="out">30+ internal guides &middot; 10+ training sessions to groups of 30+</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="rule">
-
-<section id="track">
-  <div class="wrap">
-    <div class="shead"><h2>Track</h2></div>
-    <div class="tl">
-      <div class="tl-row rv">
-        <div class="tl-when">Mar 2023 &ndash; present</div>
-        <div class="tl-what">
-          <strong>Technical Software Consultant</strong> &middot; <span class="org">Innovative Technology, Manchester</span>
-          <p>Own AI biometric and identity-verification deployments end to end for international
-             enterprise customers &mdash; discovery, API integration, escalated debugging, live
-             rollout. Built and shipped the internal AI tooling the support team now runs on.</p>
-        </div>
-      </div>
-      <div class="tl-row rv">
-        <div class="tl-when">2021 &ndash; 2022</div>
-        <div class="tl-what">
-          <strong>MSc Robotics and Automation</strong> &middot; <span class="org">University of Salford &mdash; Distinction</span>
-          <p>Minor in AI. Dissertation on facial age and gender estimation using CNNs &mdash;
-             the work that became the age-estimation repository above.</p>
-        </div>
-      </div>
-      <div class="tl-row rv">
-        <div class="tl-when">Mar 2020 &ndash; Sep 2021</div>
-        <div class="tl-what">
-          <strong>Automation Engineer</strong> &middot; <span class="org">Tripack Films, Pakistan</span>
-          <p>Industrial control systems and sensor integration on a large manufacturing site.
-             Led a building-management system for utility monitoring that contributed to roughly
-             25% better energy efficiency, and built an in-house electrical repair capability.</p>
-        </div>
-      </div>
-      <div class="tl-row rv">
-        <div class="tl-when">Dec 2019 &ndash; Mar 2020</div>
-        <div class="tl-what">
-          <strong>Software Consultant</strong> &middot; <span class="org">Evolligence, Pakistan</span>
-          <p>Backend application logic over structured APIs and data-driven workflows.</p>
-        </div>
-      </div>
-      <div class="tl-row rv">
-        <div class="tl-when">2015 &ndash; 2019</div>
-        <div class="tl-what">
-          <strong>BEng Electrical Engineering</strong> &middot; <span class="org">NUST, Pakistan</span>
-          <p>Focus on computer vision, machine learning and robotics.</p>
-        </div>
-      </div>
+    <div class="sh"><span class="n">04</span><h2><span>Track</span></h2></div>
+    <div class="tl rv">
+      <span class="line" aria-hidden="true"></span>
+      <div class="tl-row"><div class="tl-when">2023 &ndash; now</div><div class="tl-what"><strong>Technical Software Consultant</strong> &middot; Innovative Technology, Manchester</div></div>
+      <div class="tl-row"><div class="tl-when">2021 &ndash; 2022</div><div class="tl-what"><strong>MSc Robotics &amp; Automation</strong> &middot; University of Salford, Distinction</div></div>
+      <div class="tl-row"><div class="tl-when">2020 &ndash; 2021</div><div class="tl-what"><strong>Automation Engineer</strong> &middot; Tripack Films, Pakistan</div></div>
+      <div class="tl-row"><div class="tl-when">2019 &ndash; 2020</div><div class="tl-what"><strong>Software Consultant</strong> &middot; Evolligence, Pakistan</div></div>
+      <div class="tl-row"><div class="tl-when">2015 &ndash; 2019</div><div class="tl-what"><strong>BEng Electrical Engineering</strong> &middot; NUST, Pakistan</div></div>
     </div>
   </div>
 </section>
 
 <div class="contact" id="contact">
   <div class="wrap">
-    <div class="shead"><h2>Get in touch</h2></div>
-    <p class="standfirst" style="font-size:1.05rem;margin-bottom:0">
-      Open to applied AI, forward-deployed and solutions engineering roles &mdash;
-      the kind where someone has to own the thing end to end and be right about it.
-    </p>
+    <h2 id="talk"><span>Let's talk.</span></h2>
+    <p>Applied AI, forward-deployed and solutions engineering roles &mdash; where someone has to own it end to end and be right.</p>
     <div class="clinks">
       <a class="clink" href="mailto:hamzahrizvi2@gmail.com"><span class="ck">Email</span> hamzahrizvi2@gmail.com</a>
       <a class="clink" href="https://linkedin.com/in/hamzah-rizvi" target="_blank" rel="noopener"><span class="ck">LinkedIn</span> /in/hamzah-rizvi</a>
       <a class="clink" href="https://github.com/hamzahrizvi" target="_blank" rel="noopener"><span class="ck">GitHub</span> @hamzahrizvi</a>
       <a class="clink" href="tel:+447478631940"><span class="ck">Phone</span> 07478 631940</a>
     </div>
-    <p class="status">
-      <strong>Based in Manchester, UK.</strong> Open to international travel.
-      Requires UK Skilled Worker visa sponsorship &mdash; stated up front so it costs
-      neither of us a screening round.
-    </p>
+    <p class="status">Based in Manchester, UK. Open to international travel. Requires UK Skilled Worker visa sponsorship &mdash;
+      stated up front so it costs neither of us a screening round.</p>
   </div>
 </div>
 
@@ -944,49 +611,82 @@ h1 .ln{display:block}
 
 <script>
 (function(){
+  // widget demo GIF (works with or without motion)
   var b=document.getElementById('demoBtn'), i=document.getElementById('demoImg');
-  if(!b||!i) return;
-  b.addEventListener('click', function(){
+  if(b&&i) b.addEventListener('click',function(){
     if(b.classList.contains('playing')) return;
     i.src='img/widget-demo.gif';
     i.alt='Animated demo of the GroundedOps support widget: the launcher opens, a product is chosen, a question is asked, and a grounded answer returns with its sources.';
-    b.classList.add('playing');
-    b.setAttribute('aria-label','Widget demo playing');
+    b.classList.add('playing'); b.setAttribute('aria-label','Widget demo playing');
   });
-})();
-</script>
 
-<script>
-(function(){
-  if(!document.documentElement.classList.contains('js')) return;
-  // reveal once on scroll
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.15,rootMargin:'0px 0px -6% 0px'});
-  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
-  // highlight demos run only while visible
-  var io2=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('on',e.isIntersecting);});},{threshold:.35});
-  document.querySelectorAll('.hl-card').forEach(function(el){io2.observe(el);});
-  // hero counters (the final text is already in the HTML, so no-JS and reduced-motion visitors see real numbers)
-  document.querySelectorAll('.metric .fig[data-count]').forEach(function(el,i){
-    var to=parseFloat(el.getAttribute('data-count')),dec=+(el.getAttribute('data-dec')||0),suf=el.getAttribute('data-suffix')||'';
-    var delay=450+i*120,dur=1200,t0=null;
-    el.textContent=(0).toFixed(dec)+suf;
-    setTimeout(function(){requestAnimationFrame(function step(ts){
-      if(t0===null)t0=ts; var p=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-p,3);
-      el.textContent=(to*e).toFixed(dec)+suf; if(p<1)requestAnimationFrame(step);
-    });},delay);
+  var root=document.documentElement;
+  if(!root.classList.contains('js')) return;
+
+  // headline: split into words so each one rises (the text stays in the HTML for no-JS readers)
+  var h=document.getElementById('headline'), n=0;
+  (function split(node){
+    Array.prototype.slice.call(node.childNodes).forEach(function(c){
+      if(c.nodeType===3){
+        var frag=document.createDocumentFragment();
+        c.textContent.split(/(\s+)/).forEach(function(t){
+          if(!t) return;
+          if(/^\s+$/.test(t)){frag.appendChild(document.createTextNode(' '));return;}
+          var w=document.createElement('span'); w.className='wd';
+          var s=document.createElement('span'); s.textContent=t; s.style.setProperty('--i',n++);
+          w.appendChild(s); frag.appendChild(w);
+        });
+        c.parentNode.replaceChild(frag,c);
+      } else if(c.nodeType===1 && c.tagName.toLowerCase()!=='svg'){ split(c); }
+    });
+  })(h);
+
+  // rings start empty
+  document.querySelectorAll('.ring .arc').forEach(function(a){
+    var C=2*Math.PI*44; a.style.strokeDasharray=C; a.style.strokeDashoffset=C; a.setAttribute('data-c',C);
   });
+
+  function count(el){
+    var to=parseFloat(el.getAttribute('data-count')),dec=+(el.getAttribute('data-dec')||0),suf=el.getAttribute('data-suffix')||'',t0=null;
+    el.textContent=(0).toFixed(dec)+suf;
+    requestAnimationFrame(function step(ts){ if(t0===null)t0=ts; var p=Math.min(1,(ts-t0)/1300),e=1-Math.pow(1-p,3);
+      el.textContent=(to*e).toFixed(dec)+suf; if(p<1)requestAnimationFrame(step); });
+  }
+
+  // reveal once
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(!e.isIntersecting) return;
+    var t=e.target; t.classList.add('in'); io.unobserve(t);
+    t.querySelectorAll('.ring .arc').forEach(function(a){ var C=+a.getAttribute('data-c'),p=+a.getAttribute('data-p'); a.style.strokeDashoffset=C*(1-p); });
+    t.querySelectorAll('.big[data-count]').forEach(count);
+  });},{threshold:.2,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rv,.sh,#talk').forEach(function(el){ io.observe(el); });
+
+  // the citation pill flies to wherever the answer card sits at this width
+  function fly(){ document.querySelectorAll('.gv').forEach(function(g){ var pg=g.querySelector('.pg'), ok=g.querySelector('.ok');
+    if(pg&&ok) g.style.setProperty('--fly',(ok.offsetLeft-pg.offsetLeft+18)+'px'); }); }
+  fly(); addEventListener('resize',fly);
+
+  // looping graphics only run while on screen
+  var io2=new IntersectionObserver(function(es){es.forEach(function(e){ e.target.classList.toggle('on',e.isIntersecting); });},{threshold:.35});
+  document.querySelectorAll('.w').forEach(function(el){ io2.observe(el); });
+
+  // scroll progress
+  var bar=document.querySelector('.progress'), ticking=false;
+  function prog(){ var d=document.documentElement, max=d.scrollHeight-d.clientHeight; bar.style.transform='scaleX('+(max>0?d.scrollTop/max:0)+')'; ticking=false; }
+  addEventListener('scroll',function(){ if(!ticking){ticking=true;requestAnimationFrame(prog);} },{passive:true}); prog();
+
   // reel: play muted while on screen, until the visitor pauses it themselves
   var v=document.getElementById('reelVid');
   if(v){
     var auto=true,byIO=false;
-    v.addEventListener('pause',function(){if(!byIO)auto=false;byIO=false;});
+    v.addEventListener('pause',function(){ if(!byIO) auto=false; byIO=false; });
     new IntersectionObserver(function(es){es.forEach(function(e){
-      if(e.isIntersecting&&auto){var p=v.play();if(p&&p.catch)p.catch(function(){});}
+      if(e.isIntersecting&&auto){var p=v.play(); if(p&&p.catch)p.catch(function(){});}
       else if(!e.isIntersecting&&!v.paused){byIO=true;v.pause();}
     });},{threshold:.5}).observe(v);
   }
 })();
 </script>
-
 </body>
 </html>
