@@ -337,6 +337,40 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .js .tl .line{transform:scaleY(0);transition:transform 1.6s var(--ease)}
 .js .tl.in .line{transform:none}
 
+.film-lbl{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.film-lbl b{color:var(--pass);margin-right:6px}
+.reel-cap a{color:var(--pass)}
+/* ---------- CV picker ---------- */
+.cvbox{display:flex;flex-direction:column;gap:22px;border:1px solid var(--line-2);background:var(--surface);padding:clamp(18px,3vw,34px)}
+.cv-quick{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 24px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.cv-quick p{margin:0;max-width:52ch}
+.cv-quick p b{font-family:var(--display);font-weight:700}
+.cv-pick{border:0;margin:0;padding:0;min-width:0}
+.cv-pick legend{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);padding:0;margin-bottom:14px}
+.cv-skills{display:flex;flex-wrap:wrap;gap:10px}
+.cv-skills label{position:relative;cursor:pointer}
+.cv-skills input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.cv-skills span{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;padding:9px 14px;border:1.5px solid var(--line-2);background:var(--ground);color:var(--ink);transition:background .15s,border-color .15s,color .15s}
+.cv-skills span::before{content:"";width:12px;height:12px;border:1.5px solid var(--muted);flex:none;transition:background .15s,border-color .15s}
+.cv-skills label:hover span{border-color:var(--ink)}
+.cv-skills input:checked + span{background:var(--pass-soft);border-color:var(--pass);color:var(--pass)}
+.cv-skills input:checked + span::before{background:var(--pass);border-color:var(--pass);box-shadow:inset 0 0 0 2px var(--pass-soft)}
+.cv-skills input:focus-visible + span{outline:2px solid var(--pass);outline-offset:2px}
+.cv-result{min-height:132px;border:1px dashed var(--line-2);padding:20px 22px;display:flex;flex-direction:column;gap:12px;justify-content:center}
+.cv-hint{margin:0;color:var(--muted)}
+.cv-result.has{border-style:solid;border-color:var(--pass);background:var(--pass-soft)}
+.cv-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 24px}
+.cv-top h3{font-family:var(--display);font-weight:800;font-size:1.5rem;letter-spacing:-.02em;line-height:1.1;margin:0}
+.cv-top .cv-line{margin:4px 0 0;font-size:.95rem;color:var(--ink-2)}
+.cv-cover{font-family:var(--mono);font-size:12px;letter-spacing:.03em;color:var(--ink-2);margin:0}
+.cv-cover b{color:var(--pass)}
+.cv-alt{font-size:.92rem;margin:0;color:var(--ink-2)}
+.cv-alt a{color:var(--pass)}
+.cv-all summary{cursor:pointer;font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2)}
+.cv-all ul{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:8px 24px}
+.cv-all li a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line-2)}
+.cv-all li a:hover{color:var(--pass);border-color:var(--pass)}
+.cv-note{margin:0;font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.6}
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
 }
@@ -352,6 +386,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <a href="#work">Work</a>
       <a href="#reel">Reel</a>
       <a href="#track">Track</a>
+      <a href="#cv">CV</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
@@ -367,6 +402,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="cta">
       <a class="btn primary" href="mailto:hamzahrizvi2@gmail.com">Email me &rarr;</a>
       <a class="btn" href="#work">See the work &darr;</a>
+      <a class="btn" href="#cv">Get my CV &darr;</a>
     </div>
   </div>
   <div class="band" aria-hidden="true"><div class="band-track"><span>Retrieval that cites its source</span><span>Eval harnesses</span><span>Biometric deployments</span><span>REST APIs &amp; webhooks</span><span>Python &middot; FastAPI</span><span>10+ countries</span><span>Retrieval that cites its source</span><span>Eval harnesses</span><span>Biometric deployments</span><span>REST APIs &amp; webhooks</span><span>Python &middot; FastAPI</span><span>10+ countries</span></div></div>
@@ -563,13 +599,21 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <section id="reel" style="padding-top:20px">
   <div class="wrap">
-    <div class="sh"><span class="n">03</span><h2><span>23 seconds</span></h2><span class="note">sound on if you like &mdash; it's quiet</span></div>
+    <div class="sh"><span class="n">03</span><h2><span>Two short films</span></h2><span class="note">sound on if you like &mdash; they're quiet</span></div>
+    <p class="film-lbl rv"><b>1</b> The assistant, 23 seconds</p>
     <figure class="reel-frame rv">
       <video id="reelVid" src="img/reel.mp4?v=3" poster="img/reel.jpg?v=3" controls muted playsinline loop preload="metadata" width="1280" height="720"
         aria-label="23-second reel: the GroundedOps assistant answering with a cited manual page, declining a question it cannot ground, then the four headline figures from this page with their source tags."></video>
     </figure>
     <figcaption class="reel-cap"><b>How this was made.</b> The widget scenes are rebuilt in HTML from the live assistant's screens; the second
       question is a staged example the manuals can't answer. Every figure is the one on this page, with its tag.</figcaption>
+    <p class="film-lbl rv" style="margin-top:48px"><b>2</b> The agent office, 22 seconds</p>
+    <figure class="reel-frame rv">
+      <video id="agentVid" src="img/agents.mp4?v=1" poster="img/agents.jpg?v=1" controls muted playsinline loop preload="metadata" width="1920" height="1080"
+        aria-label="22-second film: scheduled agents write blind test questions, run and grade them, triage the findings and build fixes in separate branches, and a fix waits for the owner's approval before anything changes."></video>
+    </figure>
+    <figcaption class="reel-cap"><b>How this was made.</b> Every line comes from the office's own files: the scheduled-task definitions and the
+      decisions file of 8 October 2026. The code is public on the <a href="https://github.com/hamzahrizvi/groundedops/tree/experimental/agent-org-phase1" target="_blank" rel="noopener">experimental/agent-org-phase1</a> branch.</figcaption>
   </div>
 </section>
 
@@ -583,6 +627,30 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="tl-row"><div class="tl-when">2020 &ndash; 2021</div><div class="tl-what"><strong>Automation Engineer</strong> &middot; Tripack Films, Pakistan</div></div>
       <div class="tl-row"><div class="tl-when">2019 &ndash; 2020</div><div class="tl-what"><strong>Software Consultant</strong> &middot; Evolligence, Pakistan</div></div>
       <div class="tl-row"><div class="tl-when">2015 &ndash; 2019</div><div class="tl-what"><strong>BEng Electrical Engineering</strong> &middot; NUST, Pakistan</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="cv" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sh"><span class="n">05</span><h2><span>Take a CV</span></h2><span class="note">tick what you are hiring for, or just grab the general one</span></div>
+    <div class="cvbox rv">
+      <div class="cv-quick">
+        <p><b>In a hurry?</b> The general CV covers applied AI, deployment and integration.</p>
+        <a class="btn primary" id="cvGeneral" href="cv/Hamzah-Rizvi-CV-Forward-Deployed-Engineer.pdf" download>Download the general CV (PDF) &darr;</a>
+      </div>
+      <fieldset class="cv-pick" id="cvPick">
+        <legend>Or tick the skills you need and I'll point you to the closest CV</legend>
+        <div class="cv-skills" id="cvSkills"></div>
+      </fieldset>
+      <div class="cv-result" id="cvResult" aria-live="polite">
+        <p class="cv-hint">Tick one or more skills above. The best-fitting CV appears here with a download button.</p>
+      </div>
+      <details class="cv-all">
+        <summary>All 12 CVs</summary>
+        <ul id="cvAll"></ul>
+      </details>
+      <p class="cv-note">Each CV is two pages and tells the same story with a different emphasis. The match is a simple tally of what each CV leads with.</p>
     </div>
   </div>
 </section>
@@ -676,16 +744,80 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   function prog(){ var d=document.documentElement, max=d.scrollHeight-d.clientHeight; bar.style.transform='scaleX('+(max>0?d.scrollTop/max:0)+')'; ticking=false; }
   addEventListener('scroll',function(){ if(!ticking){ticking=true;requestAnimationFrame(prog);} },{passive:true}); prog();
 
-  // reel: play muted while on screen, until the visitor pauses it themselves
-  var v=document.getElementById('reelVid');
-  if(v){
+  // films: play muted while on screen, until the visitor pauses them themselves
+  ['reelVid','agentVid'].forEach(function(id){
+    var v=document.getElementById(id);
+    if(!v) return;
     var auto=true,byIO=false;
     v.addEventListener('pause',function(){ if(!byIO) auto=false; byIO=false; });
     new IntersectionObserver(function(es){es.forEach(function(e){
       if(e.isIntersecting&&auto){var p=v.play(); if(p&&p.catch)p.catch(function(){});}
       else if(!e.isIntersecting&&!v.paused){byIO=true;v.pause();}
     });},{threshold:.5}).observe(v);
+  });
+})();
+</script>
+<script>
+(function(){
+  var GENERAL='fde';
+  var CVS={
+    fde:{n:'Forward Deployed Engineer',l:'Engineering, applied AI and end-to-end customer deployment.',f:'Forward-Deployed-Engineer'},
+    integration:{n:'Integration Engineer',l:'APIs, connected devices, partner integration and onboarding.',f:'Integration-Engineer'},
+    se:{n:'Solutions Engineer',l:'Technical demos, discovery and integration, with applied AI.',f:'Solutions-Engineer'},
+    sc:{n:'Solutions Consultant',l:'Technical implementation and integration for enterprise customers.',f:'Solutions-Consultant'},
+    sa:{n:'AI Solutions Architect',l:'Discovery, solution design, prototypes and technical workshops.',f:'AI-Solutions-Architect'},
+    ds:{n:'AI Deployment Strategist',l:'Scoping, success metrics and taking AI from pilot to production.',f:'AI-Deployment-Strategist'},
+    aie:{n:'AI Engineer',l:'RAG, agents, deep learning and containerised deployment.',f:'AI-Engineer'},
+    ait:{n:'AI Reliability & Test Automation Engineer',l:'Regression suites, evaluation and grounding checks for AI systems.',f:'AI-Test-Automation-Engineer'},
+    tse:{n:'Technical Support Engineer',l:'Escalation ownership, root-cause diagnosis and API guidance.',f:'Technical-Support-Engineer'},
+    ops:{n:'Customer Operations & Technical Support',l:'Deep troubleshooting, tooling, documentation and training.',f:'Customer-Operations'},
+    en:{n:'AI Enablement Specialist',l:'Training, tool evaluation and practical AI adoption.',f:'AI-Enablement-Specialist'},
+    ctl:{n:'Controls & Process Engineer',l:'Automation, PLC and process improvement with digital enablement.',f:'Controls-and-Process-Engineer'}
+  };
+  // what each CV leads with, 3 = leads, 2 = strong, 1 = mentioned
+  var SKILLS=[
+    {id:'ai',t:'AI agents, LLMs and RAG',w:{aie:3,ds:3,sa:3,fde:3,ait:2,se:2,en:2,tse:1,ops:1,integration:1}},
+    {id:'eval',t:'Model evaluation and testing',w:{ait:3,aie:2,fde:1,ds:1,sa:1}},
+    {id:'api',t:'REST APIs, webhooks and authentication',w:{integration:3,sc:3,aie:2,fde:2,se:2,sa:2,tse:2,ait:2,ctl:1}},
+    {id:'int',t:'System and partner integration',w:{integration:3,sc:3,ds:2,sa:2,fde:2,se:2}},
+    {id:'dev',t:'Connected devices and biometrics',w:{integration:3,fde:2,sc:1,tse:1,aie:1}},
+    {id:'onb',t:'Customer onboarding and implementation',w:{sc:3,integration:3,fde:2,ds:2,sa:1,se:1}},
+    {id:'pre',t:'Pre-sales, demos and discovery',w:{se:3,sa:3,ds:2,fde:1,sc:1}},
+    {id:'fde',t:'Forward-deployed, end-to-end delivery',w:{fde:3,ds:2,sa:1}},
+    {id:'strat',t:'Pilot scoping and delivery strategy',w:{ds:3,sa:1,sc:1}},
+    {id:'sup',t:'Technical support and escalations',w:{tse:3,ops:3,integration:1,en:1}},
+    {id:'doc',t:'Documentation, training and enablement',w:{en:3,ops:3,integration:2,tse:1,se:1,aie:1}},
+    {id:'py',t:'Python and backend engineering',w:{aie:3,ait:3,fde:2,sa:1,tse:1}},
+    {id:'plc',t:'PLC, automation and control systems',w:{ctl:3}},
+    {id:'proc',t:'Manufacturing and process improvement',w:{ctl:3}}
+  ];
+  var ORDER=['fde','integration','se','sc','sa','ds','aie','ait','tse','ops','en','ctl'];
+  function href(id){return 'cv/Hamzah-Rizvi-CV-'+CVS[id].f+'.pdf';}
+  var gen=document.getElementById('cvGeneral'); if(gen) gen.href=href(GENERAL);
+  var box=document.getElementById('cvSkills'), res=document.getElementById('cvResult'), all=document.getElementById('cvAll');
+  if(!box||!res) return;
+  box.innerHTML=SKILLS.map(function(k){return '<label><input type="checkbox" value="'+k.id+'"><span>'+k.t+'</span></label>';}).join('');
+  all.innerHTML=ORDER.map(function(id){return '<li><a href="'+href(id)+'" download>'+CVS[id].n+'</a></li>';}).join('');
+  function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  function update(){
+    var on=[].slice.call(box.querySelectorAll('input:checked')).map(function(i){return i.value;});
+    if(!on.length){res.className='cv-result';res.innerHTML='<p class="cv-hint">Tick one or more skills above. The best-fitting CV appears here with a download button.</p>';return;}
+    var picked=SKILLS.filter(function(k){return on.indexOf(k.id)>-1;});
+    var rows=ORDER.map(function(id,pos){
+      var score=0,strong=0;
+      picked.forEach(function(k){var w=k.w[id]||0;score+=w;if(w>=2)strong++;});
+      return {id:id,score:score,strong:strong,pos:pos};
+    }).sort(function(a,b){return b.score-a.score||b.strong-a.strong||a.pos-b.pos;});
+    var top=rows[0], cv=CVS[top.id];
+    var lead=picked.filter(function(k){return (k.w[top.id]||0)>=2;}).map(function(k){return esc(k.t);});
+    var alt=rows.slice(1,3).filter(function(r){return r.score>0;}).map(function(r){return '<a href="'+href(r.id)+'" download>'+esc(CVS[r.id].n)+'</a>';});
+    res.className='cv-result has';
+    res.innerHTML='<div class="cv-top"><div><h3>'+esc(cv.n)+'</h3><p class="cv-line">'+esc(cv.l)+'</p></div>'+
+      '<a class="btn primary" href="'+href(top.id)+'" download>Download this CV (PDF) &darr;</a></div>'+
+      '<p class="cv-cover"><b>'+top.strong+' of '+picked.length+'</b> ticked skills are a main focus of this CV'+(lead.length?': '+lead.join(', '):'')+'.</p>'+
+      (alt.length?'<p class="cv-alt">Also close: '+alt.join(' &middot; ')+'.</p>':'');
   }
+  box.addEventListener('change',update);
 })();
 </script>
 </body>
